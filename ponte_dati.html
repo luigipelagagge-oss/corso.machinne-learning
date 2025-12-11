@@ -6,8 +6,24 @@
     <style>
         /* [PROCEDIMENTO GRAFICO]: Usiamo lo stile scuro per mantenere continuità con l'Intro */
         body { font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #ddd; padding: 20px; text-align: center; }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 900px; margin: 0 auto; padding-top: 40px; } /* Aggiunto padding-top per il tasto Home */
         
+        /* --- [NUOVO] TASTO HOME IN ALTO A SINISTRA --- */
+        .btn-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #aaa;
+            text-decoration: none;
+            border: 1px solid #444;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.05);
+        }
+        .btn-home:hover { background: rgba(255,255,255,0.15); color: white; border-color: white; }
+
         /* Griglia a due colonne per forzare il confronto visivo */
         .confronto {
             display: grid;
@@ -58,6 +74,8 @@
     </style>
 </head>
 <body>
+
+    <a href="index.html" class="btn-home">🏠 Home</a>
 
     <div class="container">
         <h1>⚙️ La Meccanica dei Dati</h1>
