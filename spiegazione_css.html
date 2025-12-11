@@ -98,3 +98,140 @@
             margin-top: 30px; padding: 20px; 
             background-color: #1b5e20; 
             border: 2px solid #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 CSS (Cascading Style Sheets)</h1>
+        <p>Il CSS è la lingua usata per colorare, impaginare e dare "vita" alla struttura creata dall'HTML.</p>
+
+        <h2>Storia e Filosofia</h2>
+        <div class="history-box">
+            <span class="history-badge">Fatto Interessante</span>
+            <p>Prima del CSS, ogni pagina web doveva definire il proprio stile (font, colori) usando gli attributi direttamente nei tag HTML. Il CSS ha permesso di separare completamente la presentazione (lo stile) dalla struttura (l'HTML), rendendo il web molto più efficiente e leggero.</p>
+        </div>
+
+        <h2>Il Camaleonte CSS (Prova tu!)</h2>
+
+        <div id="camaleonte">
+            Sono un Box 
+        </div>
+
+        <div class="btn-panel">
+            <button class="btn-css btn-color" onclick="changeCSS('colore')">🎨 Cambia Colore</button>
+            <button class="btn-css btn-shape" onclick="changeCSS('forma')">📐 Cambia Forma</button>
+            <button class="btn-css btn-size" onclick="changeCSS('dimensione')">📏 Cambia Dimensione</button>
+            <button class="btn-css btn-reset" onclick="changeCSS('reset')">🔄 Reset</button>
+        </div>
+
+        <div class="code-view">
+            /* Il codice CSS applicato si vede qui */
+            <pre id="css-code-display">/* Attiva un pulsante per vedere il CSS in azione */</pre>
+        </div>
+
+        <h2>Verifica Finale (Quiz)</h2>
+        <div class="quiz-section">
+            <label for="q1">1. Qual è la funzione principale del CSS?</label>
+            <select id="q1">
+                <option value="0">Scegli...</option>
+                <option value="sbagliata">Definire la struttura della pagina.</option>
+                <option value="corretta">Definire l'aspetto e lo stile della pagina.</option>
+                <option value="sbagliata">Aggiungere interattività e logica.</option>
+            </select>
+
+            <label for="q2">2. Quale simbolo si usa per selezionare una classe?</label>
+            <select id="q2">
+                <option value="0">Scegli...</option>
+                <option value="corretta">.</option>
+                <option value="sbagliata">#</option>
+                <option value="sbagliata"><></option>
+            </select>
+
+            <label for="q3">3. Quale proprietà controlla lo spazio ESTERNO di un elemento?</label>
+            <select id="q3">
+                <option value="0">Scegli...</option>
+                <option value="sbagliata">padding</option>
+                <option value="corretta">margin</option>
+                <option value="sbagliata">border</option>
+            </select>
+
+            <button class="bottone-magico" onclick="checkQuiz()">Verifica Risposte</button>
+
+            <div id="secret-reward">
+                <h2>🎉 Hai Completato il Laboratorio CSS!</h2>
+                <p>Hai capito la differenza tra struttura e stile. Ora sei pronto per la lezione sull'interattività (JavaScript).</p>
+                <p><a href="spiegazione_js.html" style="color: #f7df1e; font-weight: bold;">➡️ Vai alla Lezione JS</a></p>
+                <p><a href="index.html" style="color: #fff;">🏠 Torna alla Home</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const camaleonte = document.getElementById('camaleonte');
+        const codeDisplay = document.getElementById('css-code-display');
+        
+        // Funzione interattiva per cambiare lo stile del camaleonte
+        function changeCSS(azione) {
+            // Ripulisce gli stili inline precedenti (per il reset)
+            camaleonte.style = ""; 
+            
+            let cssCode = "";
+            
+            if (azione === 'colore') {
+                camaleonte.style.backgroundColor = '#e74c3c';
+                camaleonte.style.color = 'yellow';
+                cssCode = `
+#camaleonte {
+    background-color: #e74c3c; 
+    color: yellow;
+}`;
+            } else if (azione === 'forma') {
+                camaleonte.style.borderRadius = '50%'; // Forma rotonda
+                camaleonte.style.transform = 'rotate(10deg)';
+                cssCode = `
+#camaleonte {
+    border-radius: 50%;
+    transform: rotate(10deg);
+}`;
+            } else if (azione === 'dimensione') {
+                camaleonte.style.width = '350px';
+                camaleonte.style.padding = '50px';
+                cssCode = `
+#camaleonte {
+    width: 350px; 
+    padding: 50px;
+}`;
+            } else { // 'reset'
+                camaleonte.style.backgroundColor = '#444';
+                camaleonte.style.color = 'white';
+                camaleonte.style.width = '200px';
+                camaleonte.style.padding = '20px';
+                camaleonte.style.borderRadius = '0';
+                camaleonte.style.transform = 'none';
+                cssCode = `/* CSS resettato ai valori iniziali */`;
+            }
+            
+            codeDisplay.innerText = cssCode.trim();
+        }
+        
+        // Funzione per controllare il quiz
+        function checkQuiz() {
+            const q1 = document.getElementById('q1').value;
+            const q2 = document.getElementById('q2').value;
+            const q3 = document.getElementById('q3').value;
+            
+            const isCorrect = (q1 === 'corretta' && q2 === 'corretta' && q3 === 'corretta');
+            const reward = document.getElementById('secret-reward');
+
+            if (isCorrect) {
+                reward.style.display = 'block';
+                alert("Complimenti! Quiz superato.");
+            } else {
+                reward.style.display = 'none';
+                alert("Attenzione: una o più risposte sono errate. Rivedi la sezione.");
+            }
+        }
+    </script>
+</body>
+</html>
