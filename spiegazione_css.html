@@ -3,137 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio CSS - Quiz Finale</title>
+    <title>Laboratorio CSS - Stile & Verifica</title>
     
     <style>
-        /* --- STILI BASE --- */
-        body { font-family: 'Segoe UI', sans-serif; background-color: #111; color: #eee; padding: 20px; text-align: center; }
-        .container { max-width: 800px; margin: 0 auto; background: #222; padding: 40px; border-radius: 15px; border-left: 10px solid #264de4; }
+        /* --- STILI DI BASE --- */
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #111; 
+            color: #eee; 
+            padding: 20px; 
+            text-align: center; 
+            transition: 0.5s; 
+        }
         
-        h1 { color: #264de4; }
-        h2 { border-bottom: 1px solid #444; margin-top: 40px; color: #fff; text-align: left; }
-        p { color: #aaa; text-align: left; font-size: 1.1rem; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #222;
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 10px solid #264de4; /* BLU CSS */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* --- STILI PER GLI ESEMPI --- */
-        .syntax-box { background: #1a1a1a; border: 2px dashed #555; padding: 20px; text-align: left; margin: 20px 0; }
-        .highlight-prop { color: #4caf50; font-weight: bold; } 
-        .highlight-val { color: #ff9800; font-weight: bold; }  
+        h1 { color: #264de4; margin-bottom: 5px; }
+        h2 { border-bottom: 1px solid #444; padding-bottom: 10px; margin-top: 40px; color: #fff; text-align: left; }
+        p { color: #aaa; font-size: 1.1rem; line-height: 1.6; text-align: left; }
 
-        /* --- QUIZ SECTION --- */
-        .quiz-section { background: #2a2a2a; padding: 25px; border-radius: 10px; border: 1px solid #555; text-align: left; }
+        /* --- PARTE 1: STORIA --- */
+        .history-box {
+            background: #2d2d2d;
+            border: 1px solid #444;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        .history-badge {
+            background: #264de4; color: white; padding: 5px 15px;
+            font-weight: bold; font-size: 0.8rem; border-radius: 20px;
+            display: inline-block; margin-bottom: 15px;
+        }
+
+        /* --- PARTE 2: CAMALEONTE (Interattivo) --- */
+        #camaleonte {
+            width: 200px;
+            padding: 20px;
+            margin: 30px auto;
+            background-color: #444;
+            color: white;
+            font-weight: bold;
+            border: 2px solid #fff;
+            text-align: center; /* Centra il testo nel box */
+            transition: all 0.5s ease;
+        }
+
+        .btn-panel {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;
+        }
+
+        .btn-css {
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+            font-weight: bold; background: #333; color: #fff; border-left: 3px solid #777;
+            transition: 0.2s;
+        }
+        .btn-css:hover { background: #444; transform: translateY(-2px); }
+        
+        .btn-color { border-color: #e74c3c; }
+        .btn-shape { border-color: #f1c40f; }
+        .btn-size  { border-color: #2ecc71; }
+        .btn-reset { border-color: #fff; }
+
+        .code-view { 
+            font-family: 'Courier New', monospace; background: #111; color: #89c4f4; 
+            padding: 15px; border-radius: 5px; margin-bottom: 15px; 
+            border-left: 3px solid #264de4; text-align: left;
+        }
+
+        /* --- PARTE 3: QUIZ --- */
+        .quiz-section { background: #2a2a2a; padding: 25px; border-radius: 10px; border: 1px solid #555; text-align: left; margin-top: 30px; }
         select { width: 100%; padding: 10px; margin-top: 5px; background: #111; color: white; border: 1px solid #444; border-radius: 5px; }
-        label { margin-top: 20px; display: block; color: #fff; }
+        label { margin-top: 20px; display: block; color: #fff; font-weight: bold; }
 
-        /* --- SEZIONE SEGRETA --- */
+        .bottone-magico {
+            background-color: #264de4; color: white; padding: 15px 30px; border: none; 
+            cursor: pointer; border-radius: 5px; font-size: 1rem; margin-top: 20px; width: 100%;
+            transition: 0.3s; font-weight: bold;
+        }
+        .bottone-magico:hover { background-color: #1a36a0; }
+
+        /* --- SEZIONE SEGRETA (USCITA) --- */
         #secret-reward {
             display: none; 
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 30px; padding: 20px; 
             background-color: #1b5e20; 
             border: 2px solid #4caf50;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        /* --- BOTTONI --- */
-        .bottone-magico {
-            background-color: #444; color: white; padding: 15px 30px; border: none; 
-            cursor: pointer; border-radius: 5px; font-size: 1rem; margin-top: 20px; width: 100%;
-            transition: 0.3s;
-        }
-        .bottone-magico:hover { background-color: #264de4; }
-
-        /* NUOVO BOTTONE USCITA (ROSSO) */
-        .bottone-esci {
-            background-color: #d32f2f; color: #fff; font-weight: bold;
-            padding: 15px 30px; border: none; cursor: pointer; border-radius: 5px;
-            margin-top: 15px; font-size: 1.2rem; width: 100%;
-        }
-        .bottone-esci:hover { background-color: #b71c1c; transform: scale(1.05); }
-        
-        #feedback-msg { margin-top: 15px; font-weight: bold; text-align: center; display: block;}
-    </style> 
-</head>
-<body>
-
-    <div class="container">
-        <h1>Laboratorio CSS Finale</h1>
-        <p>Leggi le regole qui sotto per trovare le risposte.</p>
-
-        <div class="syntax-box">
-            <p style="margin:0; color:white;"><strong>💡 Promemoria:</strong></p>
-            <ul>
-                <li>Le <strong>CLASSI</strong> hanno sempre un <strong>punto (.)</strong> davanti.</li>
-                <li>La <strong>PROPRIETÀ</strong> è cosa cambi (es. <span class="highlight-prop">color</span>).</li>
-                <li>L'<strong>HOVER</strong> si attiva al <strong>passaggio del mouse</strong>.</li>
-            </ul>
-        </div>
-
-        <h2>🔒 Sblocca l'uscita</h2>
-        <div class="quiz-section">
-            
-            <label>1. Quale simbolo si usa per le CLASSI?</label>
-            <select id="q1">
-                <option value="errato">-- Scegli --</option>
-                <option value="punto">Il punto ( . )</option>
-                <option value="hashtag">L'hashtag ( # )</option>
-            </select>
-
-            <label>2. In "color: red;", cos'è "color"?</label>
-            <select id="q2">
-                <option value="errato">-- Scegli --</option>
-                <option value="valore">Il Valore</option>
-                <option value="proprieta">La Proprietà</option>
-            </select>
-
-            <label>3. Quando funziona :hover?</label>
-            <select id="q3">
-                <option value="errato">-- Scegli --</option>
-                <option value="click">Al click</option>
-                <option value="passaggio">Al passaggio del mouse</option>
-            </select>
-
-            <button class="bottone-magico" onclick="controllaRisposte()">VERIFICA RISPOSTE</button>
-            
-            <p id="feedback-msg"></p>
-        </div>
-
-        <div id="secret-reward">
-            <h3>🎉 MISSIONE COMPIUTA! 🎉</h3>
-            <p style="color:white; margin-bottom: 20px;">Hai superato il livello CSS.</p>
-            <div style="font-size: 3rem; margin-bottom: 20px;">🔓</div>
-            
-            <button class="bottone-esci" onclick="esciDalLaboratorio()">🚪 TORNA AL MENU PRINCIPALE</button>
-        </div>
-
-    </div>
-
-    <script>
-        function controllaRisposte() {
-            var r1 = document.getElementById('q1').value;
-            var r2 = document.getElementById('q2').value;
-            var r3 = document.getElementById('q3').value;
-            var feedback = document.getElementById('feedback-msg');
-            var premio = document.getElementById('secret-reward');
-
-            if (r1 === 'punto' && r2 === 'proprieta' && r3 === 'passaggio') {
-                feedback.style.color = "#4caf50"; 
-                feedback.innerHTML = "✅ Risposte corrette! Uscita sbloccata.";
-                premio.style.display = "block"; 
-                // Scorri automaticamente giù per vedere il pulsante
-                premio.scrollIntoView({behavior: "smooth"});
-            } else {
-                feedback.style.color = "red";
-                feedback.innerHTML = "❌ Riprova! Controlla il box Promemoria.";
-                premio.style.display = "none";
-            }
-        }
-
-        // Funzione per USCIRE dalla pagina (CORRETTA)
-        function esciDalLaboratorio() {
-            window.location.href = "index.html"; 
-        }
-    </script>
-
-</body>
-</html>
