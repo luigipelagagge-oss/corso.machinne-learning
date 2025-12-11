@@ -3,36 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benvenuto - Le Basi del Web</title>
+    <title>Home - Laboratorio di Sistemi e Automazione</title>
     
     <style>
         /* --- STILI GENERALI --- */
         body {
             margin: 0; padding: 0;
             font-family: 'Segoe UI', sans-serif;
-            background-color: #111827;
+            background-color: #111827; /* Sfondo Scuro Moderno */
             color: #e2e8f0;
             line-height: 1.6;
             padding-bottom: 20px; 
         }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION (Intestazione) --- */
         .hero {
             background: linear-gradient(135deg, #059669, #10b981);
             padding: 80px 20px;
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
+        .hero p { font-size: 1.3rem; opacity: 0.9; }
 
         /* --- CONTENITORE --- */
         .container {
             max-width: 1000px;
-            margin: -50px auto 50px;
+            margin: -50px auto 50px; /* Effetto sovrapposto */
             padding: 20px;
             position: relative;
         }
 
-        /* --- GRIGLIA CARD --- */
+        /* --- GRIGLIA CARD (HTML, CSS, JS) --- */
         .trinity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -56,63 +58,70 @@
         .js-card   { border-color: #f7df1e; }
 
         .card .icon { font-size: 3rem; display: block; margin-bottom: 15px; }
-        .card p:last-of-type { margin-bottom: auto; } 
-
+        
         .card-btn {
             display: block; margin-top: 20px; padding: 12px; text-align: center;          
             text-decoration: none; border-radius: 8px; font-weight: bold;
-            background: rgba(255,255,255,0.05); transition: background 0.3s;
+            background: rgba(255,255,255,0.05); transition: background 0.3s; color: white;
         }
         .card-btn:hover { background: rgba(255,255,255,0.15); }
 
-        /* --- BOX SPIEGAZIONE --- */
-        .code-explanation { background: #374151; padding: 30px; border-radius: 15px; margin-bottom: 40px; }
-        code { background: #111827; padding: 2px 6px; border-radius: 4px; color: #10b981; font-family: monospace; }
-
-        /* --- BOTTONI NAVIGAZIONE --- */
-        .start-btn-container { text-align: center; margin: 60px 0; }
+        /* --- MENU DI NAVIGAZIONE (I Pulsanti Grandi) --- */
+        .nav-section { 
+            text-align: center; 
+            margin: 50px 0; 
+            padding: 40px;
+            background: #374151;
+            border-radius: 20px;
+        }
         
         .start-btn {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            color: white; text-decoration: none; font-size: 1.1rem; font-weight: bold;
-            padding: 15px 30px; border-radius: 50px;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-            transition: all 0.3s; display: inline-block; margin: 10px;
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px; 
+            border-radius: 50px;
+            text-decoration: none; font-size: 1.1rem; font-weight: bold;
+            transition: all 0.3s;
+            color: white;
         }
-        .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(139, 92, 246, 0.7); }
+        
+        /* Stili specifici pulsanti */
+        .btn-course {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        .btn-course:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(139, 92, 246, 0.7); }
 
-        /* Stile specifico per il bottone Mappa */
+        .btn-data {
+            background: #4b5563; border: 1px solid #6b7280;
+        }
+        .btn-data:hover { background: #6b7280; }
+
         .btn-map {
             background: #f7df1e; color: #000;
             box-shadow: 0 0 20px rgba(247, 223, 30, 0.4);
         }
-        .btn-map:hover { box-shadow: 0 0 40px rgba(247, 223, 30, 0.7); }
+        .btn-map:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(247, 223, 30, 0.7); }
 
-        /* --- FOOTER AVANZATO --- */
+        /* --- FOOTER --- */
         .site-footer {
             text-align: center;
             padding-top: 40px;
             border-top: 1px solid #374151;
-            margin-top: 80px;
-            color: #6b7280;
+            margin-top: 60px;
+            color: #9ca3af;
             font-size: 0.9rem;
         }
-        
-        .footer-link {
-            color: #9ca3af;
-            text-decoration: none;
-            border-bottom: 1px dotted #9ca3af;
-            transition: color 0.3s;
-        }
-        .footer-link:hover { color: #fff; border-bottom-color: #fff; }
+        .footer-link { color: #60a5fa; text-decoration: none; }
+        .footer-link:hover { text-decoration: underline; }
 
     </style>
 </head>
 <body>
 
     <div class="hero">
-        <h1>Benvenuto nel Web</h1>
-        <p>Prima di immergerci nell'Intelligenza Artificiale con Python, capiamo le basi.</p>
+        <h1>Benvenuto nel Web & AI</h1>
+        <p>Dal codice HTML all'Intelligenza Artificiale.</p>
     </div>
 
     <div class="container">
@@ -121,85 +130,52 @@
             <div class="card html-card">
                 <span class="icon">🦴</span>
                 <h2>1. HTML</h2>
-                <p><strong>La Struttura</strong></p>
-                <p>Le fondamenta della pagina web.</p>
-                <a href="spiegazione_html.html" class="card-btn" style="border: 1px solid #e34c26; color: #e34c26;">🔍 Scopri l'ABC HTML</a>
+                <p>La struttura e la storia.</p>
+                <a href="spiegazione_html.html" class="card-btn">🔍 Vai alla Lezione</a>
             </div>
 
             <div class="card css-card">
                 <span class="icon">🎨</span>
                 <h2>2. CSS</h2>
-                <p><strong>Lo Stile</strong></p>
-                <p>I colori e il design.</p>
-                <a href="spiegazione_css.html" class="card-btn" style="border: 1px solid #264de4; color: #264de4;">🔍 Scopri l'ABC CSS</a>
+                <p>Lo stile e il design.</p>
+                <a href="spiegazione_css.html" class="card-btn">🔍 Vai alla Lezione</a>
             </div>
 
             <div class="card js-card">
                 <span class="icon">⚡</span>
                 <h2>3. JavaScript</h2>
-                <p><strong>L'Azione</strong></p>
-                <p>L'interattività e la logica.</p>
-                <a href="spiegazione_js.html" class="card-btn" style="border: 1px solid #f7df1e; color: #f7df1e;">🔍 Scopri l'ABC JS</a>
+                <p>L'interattività.</p>
+                <a href="spiegazione_js.html" class="card-btn" style="color: #f7df1e;">🔍 Vai alla Lezione</a>
             </div>
         </div>
 
-        <div class="code-explanation">
-            <h2>👀 Come funziona questa pagina?</h2>
-            <p>Stai guardando un esempio pratico:</p>
-            <ul>
-                <li>Il <strong>Layout</strong> è gestito dal CSS (<code>display: grid</code>).</li>
-                <li>I <strong>Link</strong> qui sopra sono semplici tag HTML <code>&lt;a href&gt;</code>.</li>
-            </ul>
-        </div>
-
-        <div class="start-btn-container">
-            <p style="margin-bottom: 20px; color: #9ca3af;">Strumenti del Corso:</p>
+        <div class="nav-section">
+            <h2 style="margin-top: 0; margin-bottom: 20px;">🚀 Pannello di Controllo</h2>
             
             <a href="checklist.html" class="start-btn btn-map">
                 📂 Mappa del Progetto
             </a>
 
-            <a href="ponte_dati.html" class="start-btn" style="background: #4b5563; box-shadow: none;">
-                ⚙️ La Meccanica dei Dati
+            <a href="ponte_dati.html" class="start-btn btn-data">
+                ⚙️ Meccanica Dati
             </a>
 
-            <a href="Python_Sommario_0.html" class="start-btn">
-                🚀 Entra nel Corso ML
-            </a>
+            <div style="margin-top: 20px;">
+                <a href="Python_Sommario_0.html" class="start-btn btn-course">
+                    🎓 ENTRA NEL CORSO ML (Dashboard)
+                </a>
+            </div>
         </div>
 
         <footer class="site-footer">
             <p>© Corso ML & Python - Materiale Didattico Open Source</p>
-            
-            <div style="margin: 20px 0; font-size: 0.9rem; color: #9ca3af;">
-                <p>📞 <strong>Contatti Docente: +39 392 4097389</strong></p>
-                <p>📧 Email: <a href="mailto:luiz.babalau@gmail.com" style="color: #60a5fa;">luiz.babalau@gmail.com</a></p>
-            </div>
-
-            <p style="margin-top: 15px;">
-                <a href="manuale_trasporto.html" class="footer-link">
-                    📦 Guida Tecnica: Come esportare/trasportare questo corso
-                </a>
+            <p>
+                <a href="manuale_trasporto.html" class="footer-link">📦 Guida Export</a> | 
+                Contatti: <a href="mailto:luiz.babalau@gmail.com" class="footer-link">luiz.babalau@gmail.com</a>
             </p>
-
-            <button onclick="copiaLink()" style="margin-top: 20px; background: #334155; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">
-                🔗 Copia Link Pagina
-            </button>
-            <p id="copia-msg" style="color: #10b981; font-size: 0.8rem; display: none; margin-top: 5px;">Link copiato!</p>
         </footer>
 
     </div>
-
-    <script>
-        function copiaLink() {
-            navigator.clipboard.writeText(window.location.href);
-            var msg = document.getElementById("copia-msg");
-            msg.style.display = "block";
-            setTimeout(() => {
-                msg.style.display = "none";
-            }, 2000);
-        }
-    </script>
 
 </body>
 </html>
