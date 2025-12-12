@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Lezione 1: Python, AI e ML</title>
     <style>
-        /* CSS OMESSO PER BREVITA' - NESSUNA MODIFICA AGLI STILI ESISTENTI */
+        /* CSS BASE */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -104,10 +104,10 @@
             background: #f9f9f9;
         }
         
-        /* NUOVI STILI PER IL QUIZ */
+        /* STILI AGGIUNTI PER IL QUIZ */
         .quiz-container {
             padding: 25px;
-            background: #f0f8ff; /* Azzurro chiaro per evidenziare il quiz */
+            background: #f0f8ff; 
             border: 2px solid #3498db;
             border-radius: 8px;
             margin-top: 30px;
@@ -135,6 +135,13 @@
             border-radius: 5px; 
             color: #2c3e50;
         }
+
+        /* STILE PER LA FIGURA DI GERARCHIA */
+        .hierarchy-figure {
+            max-width: 80%; /* Rende l'immagine responsiva */
+            height: auto;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +156,7 @@
         <a href="#gerarchia">Gerarchia AI</a>
         <a href="#esempi">Esempi Codice</a>
         <a href="Python_1.pdf" target="_blank">📄 PDF Originale</a>
+        <a href="lezione2.html">Lezione 2 →</a>
     </div>
     
     <div class="content">
@@ -165,25 +173,16 @@
         <h2 id="gerarchia">🔍 Gerarchia dell'Intelligenza Artificiale</h2>
         
         <div style="text-align: center; margin: 30px 0;">
-            <p style="color: #2c3e50; font-style: italic;">L'Intelligenza Artificiale è il campo più vasto che contiene tutti gli altri.</p>
+            <p style="color: #2c3e50; font-style: italic;">L'Intelligenza Artificiale (AI) è l'ambito più vasto che contiene tutti gli altri. Questa visualizzazione aiuta a capire come i vari termini si relazionano:</p>
             
-
-[Image of AI ML Deep Learning Venn diagram]
-
-            <div style="display: inline-block; background: #e74c3c; color: white; padding: 20px; border-radius: 8px; margin: 10px;">
-                <h3>🤖 AI (Intelligenza Artificiale)</h3>
-                <p>Qualsiasi sistema che imita l'intelligenza umana.</p>
-            </div>
-            <div style="display: inline-block; font-size: 24px; margin: 10px;">→</div>
-            <div style="display: inline-block; background: #3498db; color: white; padding: 20px; border-radius: 8px; margin: 10px;">
-                <h3>📊 ML (Machine Learning)</h3>
-                <p>Tecniche che permettono ai sistemi di **imparare dai dati**.</p>
-            </div>
-            <div style="display: inline-block; font-size: 24px; margin: 10px;">→</div>
-            <div style="display: inline-block; background: #2ecc71; color: white; padding: 20px; border-radius: 8px; margin: 10px;">
-                <h3>🧠 Deep Learning</h3>
-                <p>Sottoinsieme del ML che usa Reti Neurali complesse.</p>
-            </div>
+            <img class="hierarchy-figure" src="image_c79a3a.jpg" alt="Diagramma di Venn della Gerarchia AI: Intelligenza Artificiale, Machine Learning, Reti Neurali, Deep Learning, Generative AI, Large Language Models in cerchi concentrici." />
+            
+            <p style="margin-top: 20px;">
+                * **Artificial Intelligence (AI):** L'obiettivo generale di rendere le macchine capaci di imitare il comportamento intelligente umano.
+                * **Machine Learning (ML):** Un sottoinsieme dell'AI che usa metodi statistici per permettere ai sistemi di imparare dai dati senza essere programmati esplicitamente.
+                * **Deep Learning (DL):** Un sottoinsieme del ML che utilizza architetture di Rete Neurale (Neural Networks) con molti strati (o "profondità").
+                * **Generative AI & LLMs:** Le tecnologie più recenti che si basano sul Deep Learning per creare contenuti nuovi (testi, immagini, codici, etc.).
+            </p>
         </div>
         
         <h2 id="programmazione">🔄 Programmazione vs Machine Learning</h2>
@@ -260,7 +259,7 @@ print(previsione)  # Output: [8.]
             </ul>
         </div>
         
-        <h2>✅ Conclusioni</h2>
+        <h2 id="conclusioni">✅ Conclusioni</h2>
         <div class="box" style="background: #d5f4e6; border-left-color: #2ecc71;">
             <p><strong>Scrivere codice Python ≠ Fare Intelligenza Artificiale</strong></p>
             <p>Se usi formule note → Calcolo Scientifico</p>
