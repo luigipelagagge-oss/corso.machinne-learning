@@ -8,7 +8,7 @@
         /* --- STILE GENERALE (Dark Mode Professionale) --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
+            background-color: #1e1e1e; /* Fondo principale scuro */
             color: #d4d4d4;
             margin: 0;
             padding: 20px;
@@ -16,7 +16,7 @@
 
         .container {
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto; /* Centratura */
             background-color: #252526;
             padding: 40px;
             border-radius: 10px;
@@ -25,18 +25,19 @@
         }
 
         h1 { color: #fff; border-bottom: 1px solid #3e3e42; padding-bottom: 15px; }
-        h3 { color: #9cdcfe; margin-top: 30px; }
+        h3 { color: #9cdcfe; margin-top: 35px; margin-bottom: 15px; }
         
         /* --- STILE DELLA LISTA (Albero) --- */
         ul.file-tree {
             list-style-type: none;
-            padding-left: 10px;
+            padding-left: 0; /* Rimosso padding iniziale per centrare meglio */
+            margin: 0;
         }
 
-        /* Stile di base per le voci di menu (con linea divisoria) */
+        /* Voci principali - Linea di separazione chiara */
         ul.file-tree li {
-            padding: 8px 0;
-            border-bottom: 1px solid #333; /* Linea di interconnessione/separazione */
+            padding: 10px 0; /* Più spazio verticale */
+            border-bottom: 2px solid #444; /* Linea più spessa e visibile */
             font-size: 1.05rem;
             display: flex; 
             justify-content: space-between; 
@@ -45,21 +46,20 @@
 
         ul.file-tree li:last-child { border-bottom: none; }
 
-        /* Stile specifico per gli elementi allegati (più compatti e senza linea sotto) */
-        .attachment-item {
-            padding: 4px 0 4px 10px; /* piccolo rientro */
-            border-bottom: none !important; 
-            font-size: 0.95rem;
-            color: #b5cea8; 
-            display: block; /* per evitare il flex */
-        }
-        .attachment-list {
-            padding-left: 20px;
-            margin-top: -10px; /* Tira su la lista per compattare */
-            margin-bottom: 20px;
-            border-bottom: 1px solid #333; /* Aggiunge una riga di separazione alla fine del blocco allegati */
+        /* Contenitore e lista degli Allegati */
+        .attachment-group {
+            background-color: #1a1a1a; /* Sfondo leggermente più scuro per separazione */
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #333;
         }
 
+        .attachment-item {
+            padding: 3px 0;
+            font-size: 0.95rem;
+            color: #b5cea8; /* Verde tenue */
+        }
 
         /* Link principali (Titoli file) */
         a { text-decoration: none; transition: 0.2s; }
@@ -174,18 +174,40 @@
             <li>🎉 <a href="lezione8.html" class="main-link">Lezione 8 (Finale)</a> <a href="#" onclick="mostraCodice('lezione8.html'); return false;" class="code-link">👁️ Vedi Codice</a></li>
         </ul>
 
-        <h3>📎 Allegati Immagini (.png / .jpg)</h3>
-        <ul class="attachment-list">
-            <li class="attachment-item">🖼️ <a href="ai_gerarchia.png" class="pdf-link" target="_blank">ai_gerarchia.png</a> (Riferimento Lezione 1)</li>
-            <li class="attachment-item">🖼️ <a href="grafico_esempio.png" class="pdf-link" target="_blank">grafico_esempio.png</a> (Riferimento Lezione 3)</li>
-        </ul>
-        
-        <h3>📄 Allegati Documentazione (PDF)</h3>
-        <ul class="attachment-list">
-            <li class="attachment-item"><a href="Python_1.pdf" class="pdf-link" target="_blank">Python_1.pdf</a> (L.1) | <a href="Python_2.pdf" class="pdf-link" target="_blank">Python_2.pdf</a> (L.2) | <a href="Python_3.pdf" class="pdf-link" target="_blank">Python_3.pdf</a> (L.3)</li>
-            <li class="attachment-item"><a href="Python_4.pdf" class="pdf-link" target="_blank">Python_4.pdf</a> (L.4) | <a href="Python_5.pdf" class="pdf-link" target="_blank">Python_5.pdf</a> (L.5) | <a href="Python_6.pdf" class="pdf-link" target="_blank">Python_6.pdf</a> (L.6)</li>
-            <li class="attachment-item"><a href="Python_7.pdf" class="pdf-link" target="_blank">Python_7.pdf</a> (L.7) | <a href="Python_8.pdf" class="pdf-link" target="_blank">Python_8.pdf</a> (L.8)</li>
-        </ul>
+        <h3>📎 Allegati e Risorse Esterni</h3>
+        <div class="attachment-group">
+            <p style="font-size: 0.95rem; color: #d4d4d4; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                🖼️ Immagini (Visuali per le lezioni):
+            </p>
+            <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+                <li class="attachment-item">
+                    <a href="ai_gerarchia.png" class="pdf-link" target="_blank">ai_gerarchia.png</a> (Diagramma Lezione 1)
+                </li>
+                <li class="attachment-item">
+                    <a href="grafico_esempio.png" class="pdf-link" target="_blank">grafico_esempio.png</a> (Esempio Grafico L. 3)
+                </li>
+            </ul>
+
+            <p style="font-size: 0.95rem; color: #d4d4d4; font-weight: bold; border-bottom: 1px solid #333; padding-top: 15px; padding-bottom: 5px; margin-bottom: 10px;">
+                📄 Documentazione Dettagliata (PDF):
+            </p>
+            <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                <li class="attachment-item">
+                    <a href="Python_1.pdf" class="pdf-link" target="_blank">Python_1.pdf</a> (L.1) | 
+                    <a href="Python_2.pdf" class="pdf-link" target="_blank">Python_2.pdf</a> (L.2) | 
+                    <a href="Python_3.pdf" class="pdf-link" target="_blank">Python_3.pdf</a> (L.3)
+                </li>
+                <li class="attachment-item">
+                    <a href="Python_4.pdf" class="pdf-link" target="_blank">Python_4.pdf</a> (L.4) | 
+                    <a href="Python_5.pdf" class="pdf-link" target="_blank">Python_5.pdf</a> (L.5) | 
+                    <a href="Python_6.pdf" class="pdf-link" target="_blank">Python_6.pdf</a> (L.6)
+                </li>
+                <li class="attachment-item">
+                    <a href="Python_7.pdf" class="pdf-link" target="_blank">Python_7.pdf</a> (L.7) | 
+                    <a href="Python_8.pdf" class="pdf-link" target="_blank">Python_8.pdf</a> (L.8)
+                </li>
+            </ul>
+        </div>
             </div>
 </div>
 
@@ -198,7 +220,7 @@
         <div class="code-container">
             <pre><code id="code-display">Caricamento...</code></pre>
         </div>
-        <div style="padding: 10px; text-align: center; color: #9cdcfe; font-size: 0.85rem;">
+        <div style="padding: 10px; text-align: center; color: #9cdcfe; font-size: 0.85rem; background: #2d2d2d;">
             Il codice sorgente è visibile solo per i file .html. Allegati come PDF e immagini sono risorse esterne.
         </div>
     </div>
@@ -206,7 +228,7 @@
 
 <script>
     function mostraCodice(nomeFile) {
-        // Guardia per i file allegati (più robusta)
+        // Guardia per i file allegati
         if (nomeFile.toLowerCase().match(/\.(pdf|png|jpe?g)$/)) {
             alert("Attenzione: i file allegati (immagini e PDF) non sono codice sorgente HTML. Non possono essere visualizzati in questa finestra.");
             return; 
