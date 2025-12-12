@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Lezione 5: Sviluppo Software - Automazione Circuitale</title>
     <style>
+        /* --- STILE STANDARD BLUE (Coerente con Lezioni 1-4) --- */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -14,7 +15,7 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
+            background: linear-gradient(135deg, #3498db, #2980b9); /* Blu Standard */
             color: white;
             padding: 30px;
             border-radius: 10px;
@@ -22,10 +23,7 @@
             margin-bottom: 30px;
         }
         
-        h1 {
-            color: white;
-            margin-bottom: 10px;
-        }
+        h1 { margin-bottom: 10px; color: white; }
         
         .nav {
             background: white;
@@ -39,11 +37,14 @@
             display: inline-block;
             margin: 0 10px;
             padding: 10px 20px;
-            background: #f39c12;
+            background: #3498db;
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            transition: background 0.3s;
         }
+        
+        .nav a:hover { background: #2980b9; }
         
         .content {
             background: white;
@@ -53,16 +54,17 @@
         
         h2 {
             color: #2c3e50;
-            border-bottom: 2px solid #f39c12;
+            border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
             margin-top: 30px;
         }
         
+        /* BOX STANDARD */
         .box {
-            background: #fef9e7;
+            background: #ecf0f1;
             padding: 20px;
             margin: 20px 0;
-            border-left: 4px solid #f39c12;
+            border-left: 4px solid #3498db;
             border-radius: 5px;
         }
         
@@ -81,43 +83,41 @@
             border-left-color: #3498db;
         }
         
+        /* CODICE */
         .code {
             background: #2c3e50;
             color: #ecf0f1;
             padding: 15px;
             font-family: 'Courier New', monospace;
-            border-radius: 5px;
+            border-radius: 0 0 5px 5px; /* Arrotondamento solo sotto */
             overflow-x: auto;
-            margin: 15px 0;
+            margin-bottom: 15px;
         }
         
         .code-header {
             background: #34495e;
-            color: #ecf0f1;
-            padding: 8px 15px;
-            border-radius: 5px 5px 0 0;
-            margin-bottom: -10px;
-            font-family: monospace;
+            color: #bdc3c7;
+            padding: 5px 15px;
+            border-radius: 5px 5px 0 0; /* Arrotondamento solo sopra */
+            font-family: sans-serif;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 15px;
+            border-bottom: 1px solid #2c3e50;
         }
         
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
+        /* STEPS */
         .step {
-            background: #fef9e7;
+            background: #e8f4fc;
             padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
-            border-left: 3px solid #f39c12;
+            border-left: 3px solid #3498db;
         }
         
         .step-number {
             display: inline-block;
-            background: #f39c12;
+            background: #3498db;
             color: white;
             width: 30px;
             height: 30px;
@@ -128,6 +128,7 @@
             font-weight: bold;
         }
         
+        /* DIAGRAMMI E FLUSSI */
         .function-visual {
             background: #e8f4fc;
             padding: 20px;
@@ -135,24 +136,6 @@
             margin: 20px 0;
             text-align: center;
             border: 2px dashed #3498db;
-        }
-        
-        .circuit-diagram {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px solid #f39c12;
-        }
-        
-        .diagram-element {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .workflow {
@@ -165,30 +148,85 @@
         
         .workflow-step {
             text-align: center;
-            padding: 20px;
-            width: 200px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 180px;
             margin: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         .workflow-arrow {
             font-size: 2em;
-            color: #f39c12;
+            color: #3498db;
         }
         
+        /* VISUALIZZAZIONE CIRCUITO (Simulazione Schemdraw) */
+        .circuit-diagram {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        
+        .diagram-element {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 2px solid #2c3e50;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #ecf0f1;
+        }
+
+        /* TERMINALE OUTPUT */
         .terminal {
-            background: #2c3e50;
-            color: #2ecc71;
+            background: #000;
+            color: #2ecc71; /* Verde Matrix */
             padding: 15px;
             border-radius: 5px;
             font-family: 'Courier New', monospace;
             margin: 15px 0;
+            border-left: 4px solid #2ecc71;
         }
-        
-        .indentation-example {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-left: 4px solid #e74c3c;
+
+        /* QUIZ */
+        .quiz-container {
+            padding: 25px;
+            background: #f0f8ff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .quiz-button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .quiz-button:hover { background: #2980b9; }
+
+        .reward {
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #d5f4e6; 
+            border-radius: 5px; 
+            color: #2c3e50;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -211,20 +249,20 @@
     
     <div class="content">
         <h2 id="obiettivo">🎯 Obiettivo: Automatizzare il Lavoro</h2>
-        <p>Nelle lezioni precedenti abbiamo scritto codice "usa e getta". Oggi faremo un salto di qualità:</p>
+        <p>Nelle lezioni precedenti abbiamo scritto codice "usa e getta". Oggi faremo un salto di qualità.</p>
         
         <div class="box success">
-            <h3>🚀 Creeremo un nostro <strong>programma modulare</strong> (una piccola "libreria") che fa due cose automaticamente:</h3>
+            <h3>🚀 Creeremo un nostro <strong>programma modulare</strong> (una piccola "libreria") che:</h3>
             <ol>
-                <li><strong>Calcola</strong> che batteria serve per alimentare un carico (Legge di Ohm)</li>
-                <li><strong>Disegna</strong> lo schema elettrico corrispondente usando Python</li>
+                <li><strong>Calcola</strong> che batteria serve per alimentare un carico (Legge di Ohm).</li>
+                <li><strong>Disegna</strong> automaticamente lo schema elettrico corrispondente.</li>
             </ol>
         </div>
         
         <p>Procederemo per piccoli passi <strong>Step-by-Step</strong>.</p>
         
         <h2 id="funzioni">🔧 Passo 1: La Funzione Matematica</h2>
-        <p>Invece di riscrivere la formula <strong>V = R · I</strong> ogni volta, creiamo una <strong>Funzione</strong>.</p>
+        <p>Invece di riscrivere la formula <strong>V = R · I</strong> ogni volta, creiamo una <strong>Funzione</strong> riutilizzabile.</p>
         
         <div class="function-visual">
             <div style="font-size: 2em;">⚡</div>
@@ -235,11 +273,10 @@
         
         <div class="box warning">
             <h3>⚠️ Attenzione all'Indentazione!</h3>
-            <p>In Python gli spazi sono fondamentali. Il codice dentro la funzione deve essere spostato a destra (tasto TAB).</p>
-            <p>Se non lo fate, otterrete <code>IndentationError</code>.</p>
+            <p>In Python gli spazi sono fondamentali. Il codice dentro la funzione deve essere spostato a destra (tasto TAB). Se non lo fate, otterrete <code>IndentationError</code>.</p>
         </div>
         
-        <div class="code-header">Definizione della funzione (Il nostro componente software)</div>
+        <div class="code-header">python: definizione funzione</div>
         <div class="code">
 def calcola_batteria(corrente_mA, resistenza_kOhm):
     """
@@ -257,24 +294,24 @@ def calcola_batteria(corrente_mA, resistenza_kOhm):
             <h3>📝 Come funziona?</h3>
             <p>Ora, ogni volta che scriveremo <code>calcola_batteria(2, 1)</code>, Python ci risponderà <strong>2</strong>.</p>
             <div class="terminal">
->>> calcola_batteria(5, 2.2)<br>
-11.0<br>
->>> calcola_batteria(10, 1)<br>
+>>> calcola_batteria(5, 2.2)
+11.0
+>>> calcola_batteria(10, 1)
 10.0
             </div>
         </div>
         
         <h2 id="schemdraw">🎨 Passo 2: Il Disegno Tecnico (Schemdraw)</h2>
-        <p>Python può disegnare circuiti per noi usando una libreria chiamata <strong>Schemdraw</strong>.</p>
+        <p>Python può disegnare circuiti professionali per noi usando una libreria chiamata <strong>Schemdraw</strong>.</p>
         
         <div class="box info">
             <h3>📦 Installazione Libreria</h3>
-            <p>Poiché Schemdraw non è installata di base su Colab, la prima riga del codice deve scaricarla.</p>
+            <p>Poiché Schemdraw non è installata di base, su Colab dobbiamo usare il comando magico <code>!pip install</code>.</p>
         </div>
         
-        <div class="code-header">Setup e Funzione di Disegno</div>
+        <div class="code-header">python: funzione di disegno</div>
         <div class="code">
-# 1. Installiamo la libreria (Comando di sistema, non Python!)
+# 1. Installiamo la libreria (Comando di sistema)
 !pip install schemdraw
 
 # 2. Importiamo i moduli necessari
@@ -291,7 +328,6 @@ def disegna_circuito(tensione, resistenza):
         d.add(elm.SourceV().label(f"{tensione} V"))
         
         # Aggiungiamo il resistore a destra
-        # NOTA: Usiamo rf'...' per evitare warning sul simbolo Omega
         d.add(elm.Resistor().right().label(rf"{resistenza} k$\Omega$"))
         
         # Chiudiamo il circuito tornando all'origine
@@ -300,125 +336,114 @@ def disegna_circuito(tensione, resistenza):
         </div>
         
         <div class="circuit-diagram">
-            <h3>🎨 Schema Elettrico Generato Automaticamente</h3>
-            <div style="display: inline-block; padding: 20px; background: white; border-radius: 8px;">
+            <h3>🎨 Schema Elettrico Generato</h3>
+            <p><em>Esempio visuale dell'output di Schemdraw</em></p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px;">
                 <div class="diagram-element">⚡ 11.0V</div>
-                <div style="display: inline-block; margin: 0 20px;">→</div>
+                <span>─────</span>
                 <div class="diagram-element">📏 2.2 kΩ</div>
-                <div style="display: inline-block; margin: 0 20px;">→</div>
-                <div class="diagram-element">⏚ Ground</div>
+                <span>─────</span>
+                <div class="diagram-element">⏚ GND</div>
             </div>
-            <p><em>Figura 1: Schema elettrico generato automaticamente dal codice</em></p>
         </div>
         
-        <h2 id="programma">🚀 Passo 3: Mettiamo Tutto Insieme</h2>
-        <p>Ora creiamo il <strong>"Main Program"</strong>. L'utente inserisce i dati e il sistema calcola la batteria necessaria e genera lo schema.</p>
+        <h2 id="programma">🚀 Passo 3: Il Programma Completo</h2>
+        <p>Mettiamo insieme i pezzi. L'utente inserisce i dati e il sistema calcola la batteria e genera lo schema.</p>
         
         <div class="workflow">
             <div class="workflow-step">
-                <div style="font-size: 3em;">🔢</div>
+                <div style="font-size: 2em;">🔢</div>
                 <h4>Input Utente</h4>
-                <p>Corrente e Resistenza</p>
+                <p>I = 5mA, R = 2.2kΩ</p>
             </div>
-            
             <div class="workflow-arrow">→</div>
-            
             <div class="workflow-step">
-                <div style="font-size: 3em;">🧮</div>
-                <h4>Calcolo</h4>
-                <p>Legge di Ohm</p>
+                <div style="font-size: 2em;">🧮</div>
+                <h4>Funzione Calcolo</h4>
+                <p>V = R·I</p>
             </div>
-            
             <div class="workflow-arrow">→</div>
-            
             <div class="workflow-step">
-                <div style="font-size: 3em;">🎨</div>
-                <h4>Disegno</h4>
-                <p>Schema Circuito</p>
+                <div style="font-size: 2em;">🎨</div>
+                <h4>Funzione Disegno</h4>
+                <p>Output Grafico</p>
             </div>
         </div>
         
-        <div class="code-header">Programma Completo</div>
+        <div class="code-header">python: main program</div>
         <div class="code">
 # ---- INPUT UTENTE ----
 I_target = 5.0   # Vogliamo 5mA
 R_carico = 2.2   # Resistore da 2.2 kOhm
 
 # ---- FASE 1: CALCOLO ----
-# Richiamiamo la nostra funzione
+# Richiamiamo la nostra funzione matematica
 V_necessaria = calcola_batteria(I_target, R_carico)
 
 print(f"Per avere {I_target} mA su {R_carico} kOhm...")
 print(f"Serve una batteria da {V_necessaria} Volt")
 
 # ---- FASE 2: DISEGNO ----
-# Richiamiamo la funzione grafica
+# Richiamiamo la funzione grafica con i dati calcolati
 disegna_circuito(V_necessaria, R_carico)
         </div>
         
         <div class="box">
             <h3>📋 Output Atteso:</h3>
             <div class="terminal">
-Per avere 5.0 mA su 2.2 kOhm...<br>
-Serve una batteria da 11.0 Volt<br>
+Per avere 5.0 mA su 2.2 kOhm...
+Serve una batteria da 11.0 Volt
 Sto disegnando il circuito: 11.0V su 2.2 kOhm...
+[Immagine del circuito appare qui]
             </div>
         </div>
         
         <h2>🔗 Collegamento con Google Colab</h2>
         <div class="box info">
             <h3>💡 Laboratorio Pratico</h3>
-            <p>Diventa uno sviluppatore Python aprendo il notebook Colab:</p>
+            <p>Diventa uno sviluppatore Python aprendo il notebook:</p>
             <p style="text-align: center; margin-top: 10px;">
                 <a href="#" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                    [APRI GENERATORE SCHEMI SU COLAB]
+                    [ APRI GENERATORE SCHEMI SU COLAB ]
                 </a>
             </p>
         </div>
         
         <h2>🧭 Continua il Percorso</h2>
-        <div class="box">
+        <div class="box warning">
             <h3>🚧 Limite Attuale:</h3>
-            <p>Finora abbiamo visto solo <strong>linee rette (Resistori)</strong> che seguono la Legge di Ohm.</p>
-            <p><strong>Ma cosa succede se il componente non è lineare?</strong></p>
-            <p style="text-align: center; margin-top: 15px;">
-                <a href="lezione6.html" style="background: #9b59b6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                    Vai alla Lezione 6: Il Diodo e la Non-Linearità →
-                </a>
-            </p>
+            <p>Finora abbiamo visto solo <strong>linee rette (Resistori)</strong> che seguono la Legge di Ohm in modo lineare.</p>
+            <p><strong>Ma cosa succede se il componente NON è lineare?</strong> (Es. un Diodo)</p>
         </div>
-        
-        <h2>📚 Riassunto Apprendimenti</h2>
-        <div class="box success">
-            <h3>✅ Cosa abbiamo imparato oggi:</h3>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Funzioni Python</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Creare componenti software riutilizzabili</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Schemdraw</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Generare schemi elettrici automaticamente</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Automazione</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Integrare calcolo e visualizzazione</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><strong>Programmazione Modulare</strong></td>
-                    <td style="padding: 10px;">Strutturare codice in componenti separati</td>
-                </tr>
-            </table>
+
+        <hr style="border: 1px solid #ddd; margin: 40px 0;">
+
+        <h2>📝 Verifica Concetti Software</h2>
+        <div class="quiz-container">
+            <label for="q5">1. Qual è il vantaggio principale di creare una funzione (es. <code>def calcola...</code>)?</label>
+            <select id="q5" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                <option value="0">Scegli...</option>
+                <option value="sbagliata">Rende il codice più colorato.</option>
+                <option value="corretta">Permette di riutilizzare il codice molte volte senza riscriverlo (Modularità).</option>
+                <option value="sbagliata">Fa eseguire il codice più velocemente.</option>
+            </select>
+            
+            <button id="check-l5" class="quiz-button" onclick="checkL5Quiz()">Verifica Risposta</button>
+
+            <div id="reward-l5" class="reward" style="display: none;">
+                <p>Esatto! La modularità è la chiave dello sviluppo software moderno.</p>
+                <p>Sei pronto per affrontare la non-linearità.</p>
+                <p><a href="lezione6.html" style="color: #2ecc71; font-weight: bold;">➡️ Vai alla Lezione 6: Il Diodo e la Non-Linearità</a></p>
+            </div>
         </div>
-        
         <h2>💡 Best Practices per Sviluppatori</h2>
         <div class="code">
 # BUONE PRATICHE DI PROGRAMMAZIONE
-1. Usa nomi di funzione descrittivi
-2. Documenta con docstring (""")
+1. Usa nomi di funzione descrittivi (es. 'calcola_batteria' non 'func1')
+2. Documenta con docstring ("""Descrizione""")
 3. Separa input, elaborazione, output
-4. Gestisci gli errori (try/except)
-5. Mantieni le funzioni brevi e focalizzate
+4. Gestisci gli errori
+5. Mantieni le funzioni brevi e focalizzate su un solo compito
         </div>
     </div>
     
@@ -431,5 +456,23 @@ Sto disegnando il circuito: 11.0V su 2.2 kOhm...
             <a href="lezione6.html">Lezione 6 →</a>
         </p>
     </div>
+
+    <script>
+        function checkL5Quiz() {
+            const q5 = document.getElementById('q5').value;
+            const reward = document.getElementById('reward-l5');
+            const button = document.getElementById('check-l5');
+            
+            if (q5 === 'corretta') {
+                reward.style.display = 'block';
+                button.style.backgroundColor = '#2ecc71';
+                alert("Quiz superato! Hai compreso il valore delle funzioni.");
+            } else {
+                reward.style.display = 'none';
+                button.style.backgroundColor = '#e74c3c';
+                alert("Riprova: pensa a perché abbiamo creato una funzione invece di copiare-incollare la formula.");
+            }
+        }
+    </script>
 </body>
 </html>
