@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Lezione 2: Regressione Lineare in Elettronica</title>
     <style>
-        /* Blocco logico CSS Base */
+        /* CSS BASE */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -105,13 +105,6 @@
             color: white;
         }
         
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
         .formula {
             text-align: center;
             font-size: 1.2em;
@@ -143,28 +136,24 @@
             font-weight: bold;
         }
 
-        /* NUOVI STILI AGGIUNTI PER IL QUIZ */
+        /* NUOVI STILI PER IL QUIZ */
         .quiz-container {
             padding: 25px;
-            background: #f0f8ff; /* Azzurro chiaro per evidenziare il quiz */
+            background: #f0f8ff;
             border: 2px solid #3498db;
             border-radius: 8px;
             margin-top: 30px;
         }
 
         .quiz-button {
-            background: #3498db; 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            cursor: pointer; 
-            border-radius: 5px; 
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
             margin-top: 20px;
             transition: background 0.3s;
-        }
-
-        .quiz-button:hover {
-            background: #2980b9;
         }
 
         .reward {
@@ -174,7 +163,6 @@
             border-radius: 5px; 
             color: #2c3e50;
         }
-        /* Fine blocco logico CSS Aggiunti */
     </style>
 </head>
 <body>
@@ -187,7 +175,7 @@
     <div class="nav">
         <a href="lezione1.html">← Lezione 1</a>
         <a href="#obiettivo">Obiettivo</a>
-        <a href="#dati">Dati Sperimentali</a>
+        <a href="#modello">Modello Fisico</a>
         <a href="#codice">Codice Python</a>
         <a href="Python_2.pdf" target="_blank">📄 PDF Originale</a>
         <a href="lezione3.html">Lezione 3 →</a>
@@ -287,13 +275,11 @@
             <strong>Preparazione Dati</strong>
         </div>
         <div class="code">
-# Importa la libreria numpy per la gestione degli array numerici
 import numpy as np
-# Importa la classe per la Regressione Lineare dalla libreria ML scikit-learn
 from sklearn.linear_model import LinearRegression
 
 # 1. PREPARAZIONE DATI
-# X (Input): Corrente in mA. NOTA: array bidimensionale richiesto da scikit-learn
+# X (Input): Corrente in mA. array bidimensionale richiesto da scikit-learn
 X_corrente = np.array([[1.0], [2.0], [3.0], [4.0], [5.0]])
 
 # y (Target): Tensione in Volt misurata (con errore)
@@ -306,9 +292,8 @@ y_tensione = np.array([1.1, 1.9, 3.2, 3.8, 5.1])
         </div>
         <div class="code">
 # 2. ADDESTRAMENTO
-# Inizializza il modello
+# Inizializza il modello e lo addestra (fit)
 modello = LinearRegression()
-# Addestra il modello (fit): la macchina analizza X e y per trovare la retta migliore
 modello.fit(X_corrente, y_tensione)
 
 print("Analisi completata.")
@@ -335,11 +320,6 @@ print(f"Offset/errore multimetro: {offset:.2f} V")
             <h3>✅ Output del Programma (Valori Calcolati):</h3>
             <p><strong>Coefficiente angolare (m):</strong> ≈ 0.98 kΩ <em>(Questa è la Resistenza R)</em></p>
             <p><strong>Intercetta (q):</strong> ≈ 0.05 V <em>(Questo è l'errore di offset del multimetro)</em></p>
-        </div>
-        
-        <div class="box">
-            <h3>🤔 Ma questi numeri sono affidabili?</h3>
-            <p>Per rispondere, dobbiamo capire visivamente cosa significa regressione lineare...</p>
         </div>
         
         <h2 id="visuale">👁️ Che cos'è visivamente la Regressione?</h2>
@@ -422,22 +402,18 @@ print(f"Offset/errore multimetro: {offset:.2f} V")
     </div>
     
     <script>
-        // Funzione per controllare la risposta del quiz di fine lezione 2
         function checkL2Quiz() {
-            // Ottiene il valore selezionato per la domanda
             const q5 = document.getElementById('q5').value;
             const reward = document.getElementById('reward-l2');
             const button = document.getElementById('check-l2');
             
             if (q5 === 'corretta') {
-                // Se la risposta è corretta
-                reward.style.display = 'block'; // Mostra il link alla prossima lezione
-                button.style.backgroundColor = '#2ecc71'; // Cambia colore al bottone (successo)
+                reward.style.display = 'block';
+                button.style.backgroundColor = '#2ecc71';
                 alert("Quiz superato! Sei pronto per la Visualizzazione.");
             } else {
-                // Se la risposta è errata
                 reward.style.display = 'none';
-                button.style.backgroundColor = '#e74c3c'; // Colore errore
+                button.style.backgroundColor = '#e74c3c';
                 alert("Attenzione: risposta errata. Rivedi la sezione 'Il Modello Fisico' per il mapping.");
             }
         }
