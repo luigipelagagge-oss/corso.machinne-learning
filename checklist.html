@@ -2,187 +2,232 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Mappa del Progetto (Repository)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappa del Progetto - Laboratorio</title>
     <style>
-        /* --- STILE AD ALTO CONTRASTO (Terminal Style) --- */
+        /* --- STILE GENERALE (Dark Mode Professionale) --- */
         body {
-            background-color: #0d1117; /* Molto scuro, quasi nero */
-            color: #c9d1d9; /* Grigio chiaro per il testo */
-            font-family: 'Consolas', 'Courier New', monospace; /* Font monospaziato essenziale per l'albero */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
             margin: 0;
-            padding: 40px;
+            padding: 20px;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto; /* Centrato */
-            background-color: #161b22; /* Sfondo del box */
-            padding: 30px;
-            border: 1px solid #30363d;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #252526;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.7);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-left: 5px solid #007acc; /* Blu VS Code */
         }
 
-        h1 {
-            color: #58a6ff; /* Blu brillante */
-            border-bottom: 2px solid #30363d;
-            padding-bottom: 15px;
-            margin-top: 0;
-        }
-
-        .warning-box {
-            background-color: #2e0804; /* Rosso scuro */
-            border: 1px solid #da3633; /* Rosso acceso */
-            color: #ffadad;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-        }
-
-        /* --- STILE DELL'ALBERO (ASCII TREE) --- */
-        .tree-view {
-            background-color: #000000; /* Sfondo NERO per il codice */
-            padding: 20px;
-            border-radius: 6px;
-            border: 1px solid #30363d;
-            overflow-x: auto;
-            line-height: 1.6;
-            font-size: 15px;
-            white-space: pre; /* FONDAMENTALE: Mantiene gli spazi e l'allineamento */
-        }
-
-        /* Colori per la sintassi dell'albero */
-        .line { color: #569cd6; font-weight: bold; } /* Linee blu (│ ├──) */
-        .folder { color: #d2a8ff; font-weight: bold; } /* Cartelle viola */
-        .html-file { color: #3fb950; font-weight: bold; text-decoration: none; } /* HTML Verde */
-        .html-file:hover { text-decoration: underline; color: #fff; }
+        h1 { color: #fff; border-bottom: 1px solid #555; padding-bottom: 15px; }
+        h3 { color: #9cdcfe; margin-top: 30px; }
         
-        .asset-file { color: #f2cc60; text-decoration: none; } /* Allegati Gialli */
-        .asset-file:hover { text-decoration: underline; color: #fff; }
+        /* --- STILE DELLA LISTA (Albero) --- */
+        ul.file-tree {
+            list-style-type: none;
+            padding-left: 10px;
+        }
 
-        .comment { color: #8b949e; font-style: italic; } /* Commenti grigi */
+        ul.file-tree li {
+            padding: 10px 5px; /* Spaziatura aumentata per leggibilità */
+            border-bottom: 1px solid #555; /* COLORE SCHIARITO PER VISIBILITÀ */
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Pulsante Sorgente */
-        .src-btn {
-            color: #58a6ff;
-            font-size: 0.8em;
+        ul.file-tree li:last-child { border-bottom: none; }
+
+        /* Stile speciale per i sotto-elementi (Allegati) */
+        .sub-item {
+            color: #b5cea8; /* Verde tenue differente dal testo principale */
+            font-style: italic;
+            font-size: 0.95rem;
+            padding-left: 30px !important; /* Rientro visivo */
+            border-bottom: 1px solid #444 !important; /* Linea più sottile */
+        }
+
+        /* Link principali */
+        a { text-decoration: none; transition: 0.2s; }
+        a.main-link { color: #4ec9b0; font-weight: bold; }
+        a.main-link:hover { color: #fff; text-decoration: underline; }
+
+        /* Link PDF/IMG */
+        a.asset-link { color: #ce9178; }
+        a.asset-link:hover { text-decoration: underline; color: #fff; }
+
+        /* Link "Vedi Codice" */
+        a.code-link {
+            color: #569cd6;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            background: #1e1e1e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #555;
             cursor: pointer;
-            margin-left: 8px;
-            opacity: 0.7;
         }
-        .src-btn:hover { opacity: 1; text-decoration: underline; }
+        a.code-link:hover { background: #007acc; color: white; border-color: #007acc; }
 
-        .btn-back {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 10px 25px;
-            background-color: #238636;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
+        /* Messaggio didattico */
+        .didactic-note {
+            background: #372a0f; 
+            border: 1px solid #ffcc00;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            color: #ffcc00;
         }
-        .btn-back:hover { background-color: #2ea043; }
 
-        /* MODALE (Invariato nella logica, adattato nei colori) */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
-        .modal-content { background-color: #0d1117; margin: 5% auto; width: 90%; height: 85%; border: 1px solid #30363d; display: flex; flex-direction: column; }
-        .modal-header { padding: 15px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
-        .close { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .code-area { flex-grow: 1; padding: 20px; overflow: auto; color: #e6edf3; font-family: monospace; }
+        /* --- MODALE --- */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(4px); }
+        .modal-content { background-color: #1e1e1e; margin: 5vh auto; width: 85%; height: 85%; border-radius: 8px; border: 1px solid #444; display: flex; flex-direction: column; }
+        .modal-header { padding: 15px 20px; background: #2d2d2d; border-bottom: 1px solid #3e3e42; display: flex; justify-content: space-between; align-items: center; }
+        .close-btn { color: #aaa; font-size: 28px; cursor: pointer; font-weight: bold; }
+        .code-container { padding: 20px; overflow: auto; flex-grow: 1; background-color: #1e1e1e; }
+        pre { margin: 0; font-family: 'Consolas', 'Monaco', monospace; color: #d4d4d4; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>📂 Mappa della Repository</h1>
+<div class="container">
+    <h1>📂 Mappa del Progetto Didattico</h1>
+    <p>Benvenuto nella struttura di navigazione. Da qui puoi visitare le pagine o studiare il loro codice sorgente.</p>
 
-        <div class="warning-box">
-            <strong>⚠️ ATTENZIONE AGLI ALLEGATI:</strong><br>
-            Le immagini (<code>.png</code>) e i PDF mostrati "dentro" l'albero devono trovarsi fisicamente nella stessa cartella dei file HTML per funzionare.
-        </div>
-
-        <div class="tree-view">
-<span class="folder">📁 CARTELLA_PROGETTO/</span>
-<span class="line">│</span>
-<span class="line">├──</span> <span class="folder">🔴 SISTEMA</span>
-<span class="line">│   ├──</span> 📄 <a href="index.html" class="html-file">index.html</a> <span class="comment">.......... [Home Page]</span> <span class="src-btn" onclick="viewCode('index.html')">&lt;sorgente&gt;</span>
-<span class="line">│   ├──</span> 📄 <a href="Python_Sommario_0.html" class="html-file">Python_Sommario_0.html</a> <span class="comment">.. [Dashboard]</span> <span class="src-btn" onclick="viewCode('Python_Sommario_0.html')">&lt;sorgente&gt;</span>
-<span class="line">│   └──</span> 📄 <a href="checklist.html" class="html-file">checklist.html</a> <span class="comment">.......... [Questa Mappa]</span> <span class="src-btn" onclick="viewCode('checklist.html')">&lt;sorgente&gt;</span>
-<span class="line">│</span>
-<span class="line">├──</span> <span class="folder">🟠 LAB WEB</span>
-<span class="line">│   ├──</span> 📄 <a href="spiegazione_html.html" class="html-file">spiegazione_html.html</a>
-<span class="line">│   ├──</span> 📄 <a href="spiegazione_css.html" class="html-file">spiegazione_css.html</a>
-<span class="line">│   └──</span> 📄 <a href="spiegazione_js.html" class="html-file">spiegazione_js.html</a>
-<span class="line">│</span>
-<span class="line">├──</span> <span class="folder">🔵 CORSO ML (Python)</span>
-<span class="line">│   ├──</span> 📄 <a href="lezione1.html" class="html-file">lezione1.html</a> <span class="comment">........... [Concetti AI]</span> <span class="src-btn" onclick="viewCode('lezione1.html')">&lt;sorgente&gt;</span>
-<span class="line">│   │   └──</span> 🖼️ <a href="ai_gerarchia.png" class="asset-file" target="_blank">ai_gerarchia.png</a> <span class="comment">.... (Immagine richiesta)</span>
-<span class="line">│   │</span>
-<span class="line">│   ├──</span> 📄 <a href="lezione2.html" class="html-file">lezione2.html</a> <span class="comment">........... [Regressione]</span> <span class="src-btn" onclick="viewCode('lezione2.html')">&lt;sorgente&gt;</span>
-<span class="line">│   ├──</span> 📄 <a href="lezione3.html" class="html-file">lezione3.html</a> <span class="comment">........... [Grafici]</span> <span class="src-btn" onclick="viewCode('lezione3.html')">&lt;sorgente&gt;</span>
-<span class="line">│   │   └──</span> 🖼️ <a href="grafico_esempio.png" class="asset-file" target="_blank">grafico_esempio.png</a> <span class="comment">. (Immagine richiesta)</span>
-<span class="line">│   │</span>
-<span class="line">│   ├──</span> 📄 <a href="lezione4.html" class="html-file">lezione4.html</a>
-<span class="line">│   ├──</span> 📄 <a href="lezione5.html" class="html-file">lezione5.html</a>
-<span class="line">│   ├──</span> 📄 <a href="lezione6.html" class="html-file">lezione6.html</a>
-<span class="line">│   ├──</span> 📄 <a href="lezione7.html" class="html-file">lezione7.html</a>
-<span class="line">│   └──</span> 📄 <a href="lezione8.html" class="html-file">lezione8.html</a>
-<span class="line">│</span>
-<span class="line">└──</span> <span class="folder">🟡 DOCUMENTAZIONE (PDF)</span>
-<span class="line">    ├──</span> 📄 <a href="Python_1.pdf" class="asset-file" target="_blank">Python_1.pdf</a>   📄 <a href="Python_2.pdf" class="asset-file" target="_blank">Python_2.pdf</a>
-<span class="line">    ├──</span> 📄 <a href="Python_3.pdf" class="asset-file" target="_blank">Python_3.pdf</a>   📄 <a href="Python_4.pdf" class="asset-file" target="_blank">Python_4.pdf</a>
-<span class="line">    ├──</span> 📄 <a href="Python_5.pdf" class="asset-file" target="_blank">Python_5.pdf</a>   📄 <a href="Python_6.pdf" class="asset-file" target="_blank">Python_6.pdf</a>
-<span class="line">    └──</span> 📄 <a href="Python_7.pdf" class="asset-file" target="_blank">Python_7.pdf</a>   📄 <a href="Python_8.pdf" class="asset-file" target="_blank">Python_8.pdf</a>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="index.html" class="btn-back">⬅ Torna alla Home</a>
-        </div>
+    <div class="didactic-note">
+        <strong>⚠️ REGOLA REPOSITORY:</strong> Le immagini (come <code>ai_gerarchia.png</code>) e i PDF devono essere nella stessa cartella dei file HTML per funzionare.
     </div>
 
-    <div id="codeModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span style="color:white; font-weight:bold;">Sorgente File</span>
-                <span class="close" onclick="closeCode()">&times;</span>
-            </div>
-            <div class="code-area">
-                <pre><code id="codeText">Caricamento...</code></pre>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function viewCode(file) {
-            document.getElementById('codeModal').style.display = 'block';
-            document.getElementById('codeText').innerText = "Caricamento...";
-            
-            fetch(file)
-            .then(res => {
-                if(!res.ok) throw new Error("File non trovato.");
-                return res.text();
-            })
-            .then(text => {
-                // Escape HTML per visualizzarlo come testo
-                document.getElementById('codeText').innerHTML = text
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-            })
-            .catch(err => {
-                document.getElementById('codeText').innerText = "Errore: " + err;
-            });
-        }
-
-        function closeCode() {
-            document.getElementById('codeModal').style.display = 'none';
-        }
+    <div class="file-list-container">
         
-        window.onclick = function(e) {
-            if(e.target == document.getElementById('codeModal')) closeCode();
+        <h3>🔹 Sistema Principale</h3>
+        <ul class="file-tree">
+            <li>
+                <span>🏠 <a href="index.html" class="main-link">Home Page (Portale)</a></span>
+                <a onclick="mostraCodice('index.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li>
+                <span>🎓 <a href="Python_Sommario_0.html" class="main-link">Dashboard Corso</a></span>
+                <a onclick="mostraCodice('Python_Sommario_0.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li>
+                <span>📋 <a href="checklist.html" class="main-link">Checklist (Questa pagina)</a></span>
+                <a onclick="mostraCodice('checklist.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+        </ul>
+
+        <h3>🔹 Laboratorio Web</h3>
+        <ul class="file-tree">
+            <li>
+                <span>🦴 <a href="spiegazione_html.html" class="main-link" style="color: #e34c26;">Lezione HTML</a></span>
+                <a onclick="mostraCodice('spiegazione_html.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li>
+                <span>🎨 <a href="spiegazione_css.html" class="main-link" style="color: #264de4;">Lezione CSS</a></span>
+                <a onclick="mostraCodice('spiegazione_css.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li>
+                <span>⚡ <a href="spiegazione_js.html" class="main-link" style="color: #f7df1e;">Lezione JS</a></span>
+                <a onclick="mostraCodice('spiegazione_js.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+        </ul>
+
+        <h3>🔹 Lezioni ML (Python)</h3>
+        <ul class="file-tree">
+            <li>
+                <span>📄 <a href="lezione1.html" class="main-link">Lezione 1 (Concetti)</a></span>
+                <a onclick="mostraCodice('lezione1.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li class="sub-item">
+                <span>└── 🖼️ <a href="ai_gerarchia.png" class="asset-link" target="_blank">ai_gerarchia.png</a> (Immagine)</span>
+                <span style="font-size: 0.8em; opacity: 0.7;">[Allegato Repository]</span>
+            </li>
+            <li class="sub-item">
+                <span>└── 📄 <a href="Python_1.pdf" class="asset-link" target="_blank">Python_1.pdf</a> (Documentazione)</span>
+                <span style="font-size: 0.8em; opacity: 0.7;">[Allegato Repository]</span>
+            </li>
+
+            <li>
+                <span>📄 <a href="lezione2.html" class="main-link">Lezione 2 (Regressione)</a></span>
+                <a onclick="mostraCodice('lezione2.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+            <li class="sub-item">
+                <span>└── 📄 <a href="Python_2.pdf" class="asset-link" target="_blank">Python_2.pdf</a></span>
+                <span style="font-size: 0.8em; opacity: 0.7;">[Allegato]</span>
+            </li>
+
+            <li>
+                <span>📄 <a href="lezione3.html" class="main-link">Lezione 3 (Grafici)</a></span>
+                <a onclick="mostraCodice('lezione3.html')" class="code-link">👁️ Vedi Codice</a>
+            </li>
+             <li class="sub-item">
+                <span>└── 📄 <a href="Python_3.pdf" class="asset-link" target="_blank">Python_3.pdf</a></span>
+                <span style="font-size: 0.8em; opacity: 0.7;">[Allegato]</span>
+            </li>
+            
+            <li><span>📄 <a href="lezione4.html" class="main-link">Lezione 4 (Errore)</a></span> <a onclick="mostraCodice('lezione4.html')" class="code-link">👁️</a></li>
+            <li><span>📄 <a href="lezione5.html" class="main-link">Lezione 5 (Sviluppo)</a></span> <a onclick="mostraCodice('lezione5.html')" class="code-link">👁️</a></li>
+            <li><span>📄 <a href="lezione6.html" class="main-link">Lezione 6 (Diodo)</a></span> <a onclick="mostraCodice('lezione6.html')" class="code-link">👁️</a></li>
+            <li><span>📄 <a href="lezione7.html" class="main-link">Lezione 7 (Ibrido)</a></span> <a onclick="mostraCodice('lezione7.html')" class="code-link">👁️</a></li>
+            <li><span>🎉 <a href="lezione8.html" class="main-link">Lezione 8 (Finale)</a></span> <a onclick="mostraCodice('lezione8.html')" class="code-link">👁️</a></li>
+        </ul>
+
+    </div>
+</div>
+
+<div id="codeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modal-title" style="color:white; font-weight:bold;">Sorgente</span>
+            <span class="close-btn" onclick="chiudiCodice()">&times;</span>
+        </div>
+        <div class="code-container">
+            <pre><code id="code-display">Caricamento...</code></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    function mostraCodice(nomeFile) {
+        const modal = document.getElementById('codeModal');
+        const codeDisplay = document.getElementById('code-display');
+        const titleDisplay = document.getElementById('modal-title');
+
+        modal.style.display = "block";
+        titleDisplay.innerText = "Sorgente di: " + nomeFile;
+        codeDisplay.innerText = "Caricamento in corso...";
+
+        fetch(nomeFile)
+            .then(response => {
+                if (!response.ok) throw new Error("File non trovato (Controlla il nome!)");
+                return response.text();
+            })
+            .then(testo => {
+                let testoSicuro = testo.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                codeDisplay.innerHTML = testoSicuro;
+            })
+            .catch(errore => {
+                codeDisplay.innerText = "Errore: " + errore;
+                codeDisplay.style.color = "#ff6b6b";
+            });
+    }
+
+    function chiudiCodice() {
+        document.getElementById('codeModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('codeModal')) {
+            chiudiCodice();
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
