@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Lezione 4: Teoria dell'Errore - MSE e Overfitting</title>
     <style>
-        /* --- CSS STANDARD BLU --- */
+        /* --- STILE UNIFICATO (GEMELLO DI LEZIONE 1-2-3) --- */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -15,7 +15,7 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #3498db, #2980b9); /* IL BLU STANDARD */
             color: white;
             padding: 30px;
             border-radius: 10px;
@@ -23,7 +23,10 @@
             margin-bottom: 30px;
         }
         
-        h1 { margin-bottom: 10px; color: white; }
+        h1 {
+            color: white;
+            margin-bottom: 10px;
+        }
         
         .nav {
             background: white;
@@ -41,6 +44,11 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #2980b9;
         }
         
         .content {
@@ -56,7 +64,7 @@
             margin-top: 30px;
         }
         
-        /* Box colorati */
+        /* BOX STANDARD */
         .box {
             background: #ecf0f1;
             padding: 20px;
@@ -75,12 +83,7 @@
             border-left-color: #28a745;
         }
         
-        .box.info {
-            background: #d6eaf8;
-            border-left-color: #3498db;
-        }
-        
-        /* Codice */
+        /* CODICE */
         .code {
             background: #2c3e50;
             color: #ecf0f1;
@@ -91,7 +94,7 @@
             margin: 15px 0;
         }
         
-        /* Formula */
+        /* FORMULA */
         .formula {
             text-align: center;
             font-size: 1.5em;
@@ -100,10 +103,31 @@
             background: #f8f9fa;
             border-radius: 8px;
             font-family: 'Cambria', 'Times New Roman', serif;
-            border: 2px solid #3498db;
+            border: 1px solid #ddd;
         }
         
-        /* Card Confronto */
+        .step {
+            background: #e8f4fc;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* CARD CONFRONTO (Specifico per questa lezione ma coerente) */
         .comparison {
             display: flex;
             justify-content: space-around;
@@ -120,22 +144,13 @@
             margin: 10px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             text-align: center;
+            border: 1px solid #eee;
         }
         
         .model-card.good { border-top: 4px solid #28a745; }
         .model-card.bad { border-top: 4px solid #e74c3c; }
-        
-        .error-visual {
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: linear-gradient(to right, #e74c3c 10%, #f39c12 30%, #27ae60 60%);
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-        }
-        
-        /* Quiz */
+
+        /* QUIZ */
         .quiz-container {
             padding: 25px;
             background: #f0f8ff;
@@ -206,11 +221,9 @@
             <p><strong>Immaginiamo di essere in laboratorio.</strong></p>
             <p>Il nostro multimetro legge una tensione di <strong>1.9 V</strong>, ma la nostra formula teorica prevedeva <strong>2.0 V</strong>.</p>
             
-            <div style="font-size: 1.5em; margin: 15px 0; color: #e74c3c;">
-                Realtà = 1.9V <span style="color: #666;">vs</span> Teoria = 2.0V
+            <div style="font-size: 1.5em; margin: 15px 0; color: #e74c3c; font-weight:bold;">
+                Realtà (1.9V) - Teoria (2.0V) = Residuo (-0.1V)
             </div>
-            
-            <p>Quella differenza di <strong>-0.1V</strong> è il <strong>RESIDUO</strong>.</p>
         </div>
         
         <div class="box">
@@ -226,15 +239,10 @@
             MSE = <sup>1</sup>⁄<sub>N</sub> Σ (Errore)²
         </div>
         
-        <div class="box info">
+        <div class="box">
             <h3>🤔 Perché eleviamo al quadrato?</h3>
-            <p>Se facessimo una media semplice:</p>
-            <ul>
-                <li>Errore di +5 e errore di -5 si annullerebbero (media = 0).</li>
-                <li>La macchina penserebbe di essere perfetta anche se ha sbagliato tutto!</li>
-            </ul>
-            <p><strong>Elevando al quadrato:</strong> 5² = 25, (-5)² = 25.</p>
-            <p>Tutti gli errori diventano positivi e si sommano. <strong>Più è alto questo numero, peggiore è la retta.</strong></p>
+            <p>Se facessimo una media semplice, gli errori positivi e negativi si annullerebbero (es. +5 e -5 darebbero 0).</p>
+            <p><strong>Elevando al quadrato:</strong> 5² = 25, (-5)² = 25. Tutti gli errori diventano positivi e si sommano. <strong>Più è alto questo numero, peggiore è la retta.</strong></p>
         </div>
         
         <h2 id="confronto">🥊 Laboratorio: Uomo vs Macchina</h2>
@@ -248,11 +256,11 @@
         <div class="code">
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error  # Importiamo lo strumento di misura dell'errore
+from sklearn.metrics import mean_squared_error  # <--- Importiamo lo "strumento di misura" dell'errore
 
 # Misure raccolte in laboratorio (Input: Corrente, Output: Tensione)
 X = np.array([[1.0], [2.0], [3.0], [4.0], [5.0]])
-y_true = np.array([1.1, 1.9, 3.2, 3.8, 5.1])  # Dati con rumore
+y_true = np.array([1.1, 1.9, 3.2, 3.8, 5.1])  # Notate che non sono perfetti (rumore)
         </div>
         
         <div class="step">
@@ -268,6 +276,7 @@ y_bad = X * 1.5
 
 # --- TENTATIVO AI (Machine Learning) ---
 # Chiediamo alla classe LinearRegression di trovare la retta ottima
+# La funzione .fit() esegue migliaia di calcoli per minimizzare l'errore
 modello = LinearRegression().fit(X, y_true)
 y_ai = modello.predict(X)
         </div>
@@ -302,20 +311,15 @@ print(f"Il 'Voto' al modello AI (Errore): {errore_ai:.4f}")
             </div>
         </div>
         
-        <div class="error-visual">
-            <div>ERRORE ALTO (Umano) → ERRORE MEDIO → ERRORE BASSO (AI)</div>
-            <div style="font-size: 0.8em; margin-top: 10px;">La macchina scivola lungo la curva dell'errore fino al punto più basso.</div>
-        </div>
-        
         <h2 id="overfitting">⚠️ Attenzione all'Overfitting (Imparare a Memoria)</h2>
         
         <div class="box warning">
-            <h3>🤔 Potremmo chiederci:</h3>
+            <h3>🤔 Domanda Cruciale:</h3>
             <p style="text-align: center; font-size: 1.2em;"><strong>"Perché non unire tutti i puntini con una linea a zig-zag? L'errore sarebbe zero!"</strong></p>
         </div>
         
         <div class="comparison">
-            <div class="model-card">
+            <div class="model-card bad">
                 <h3>📈 Overfitting (Sbagliato!)</h3>
                 <div style="font-size: 2em;">🌀</div>
                 <p><strong>MSE sui dati di training:</strong> ≈ 0.0</p>
