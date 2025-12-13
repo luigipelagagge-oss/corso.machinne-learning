@@ -2,283 +2,183 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mappa del Progetto - Laboratorio</title>
     <style>
-        /* --- STILE GENERALE DARK (VS Code Style) --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
             padding: 20px;
         }
-
         .container {
-            max-width: 950px;
+            max-width: 900px;
             margin: 0 auto;
-            background-color: #252526;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-left: 5px solid #007acc;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        h1 { color: #fff; border-bottom: 1px solid #3e3e42; padding-bottom: 15px; margin-bottom: 20px; }
-        h3 { color: #569cd6; margin-top: 30px; border-bottom: 1px solid #3e3e42; padding-bottom: 5px; }
-        
-        /* --- LISTA ALBERO --- */
-        ul.file-tree {
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        ul {
             list-style-type: none;
             padding: 0;
-            margin: 0;
         }
-
-        /* Ogni riga della lista */
-        ul.file-tree li {
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
             display: flex;
-            justify-content: space-between; 
             align-items: center;
-            padding: 8px 10px;
-            border-bottom: 1px solid #333;
-            transition: background 0.2s;
         }
-
-        ul.file-tree li:hover {
-            background-color: #2a2d2e;
+        li:last-child {
+            border-bottom: none;
         }
-
-        /* Stile per i FILE PRINCIPALI (Lezioni) */
-        .file-main {
-            color: #4ec9b0; /* Verde acqua */
-            font-weight: bold;
-            font-size: 1.05rem;
-            text-decoration: none;
-        }
-        .file-main:hover { text-decoration: underline; color: #fff; }
-
-        /* Stile per i RAMI (Allegati) */
-        .tree-branch {
-            color: #666;
-            font-family: monospace;
-            margin-right: 8px;
-            margin-left: 20px; /* Rientro del ramo */
-        }
-
-        .file-asset {
-            color: #ce9178; /* Arancione per i file allegati */
-            text-decoration: none;
-        }
-        .file-asset:hover { text-decoration: underline; color: #fff; }
-
-        /* --- PULSANTE "VEDI CODICE" --- */
-        .btn-code {
-            display: inline-block;
-            border: 1px solid #3e3e42;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            text-decoration: none;
-            cursor: pointer;
-            min-width: 100px;
+        .icon {
+            margin-right: 15px;
+            font-size: 1.2em;
+            width: 30px;
             text-align: center;
         }
-        .btn-code:hover {
-            border-color: #007acc;
-            background-color: #007acc;
-            color: white;
+        .file-name {
+            font-weight: bold;
+            color: #2980b9;
+            margin-right: 10px;
         }
-
-        /* --- ETICHETTA "[Allegato]" --- */
-        .label-repo {
-            color: #6a9955; /* Verde commento */
-            font-size: 0.85rem;
+        .desc {
+            color: #7f8c8d;
+            font-size: 0.9em;
             font-style: italic;
-            opacity: 0.8;
         }
+        
+        /* Colori per tipo file */
+        .type-html { color: #e44d26; } /* HTML */
+        .type-pdf { color: #e74c3c; }  /* PDF */
+        .type-img { color: #2ecc71; }  /* Immagini PNG */
+        .type-py { color: #f1c40f; }   /* Python Script */
 
-        .didactic-note {
-            background: #372a0f; 
-            border: 1px solid #ffcc00;
+        .folder-group {
+            margin-top: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
             padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 5px;
-            color: #ffcc00;
-            font-size: 0.95rem;
+            border: 1px solid #ddd;
         }
-
-        /* --- MODALE --- */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(2px); }
-        .modal-content { background-color: #1e1e1e; margin: 5vh auto; width: 85%; height: 85%; border-radius: 8px; border: 1px solid #444; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .modal-header { padding: 15px 20px; background: #2d2d2d; border-bottom: 1px solid #3e3e42; display: flex; justify-content: space-between; align-items: center; }
-        .close-btn { color: #aaa; font-size: 28px; cursor: pointer; }
-        .code-container { padding: 20px; overflow: auto; flex-grow: 1; background-color: #1e1e1e; }
-        pre { margin: 0; font-family: 'Consolas', 'Monaco', monospace; color: #d4d4d4; font-size: 14px; }
+        .folder-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn-home {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        .btn-home:hover { background: #2980b9; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📂 Mappa del Progetto Didattico</h1>
-    
-    <div class="didactic-note">
-        <strong>⚠️ REGOLA REPOSITORY:</strong> Affinché le immagini e i PDF funzionino, devono trovarsi nella <strong>stessa cartella</strong> dei file HTML.
-    </div>
-
-    <h3>🔹 Sistema Principale</h3>
-    <ul class="file-tree">
-        <li>
-            <span>🏠 <a href="index.html" class="file-main">index.html</a> (Home)</span>
-            <a onclick="mostraCodice('index.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span>🎓 <a href="Python_Sommario_0.html" class="file-main">Python_Sommario_0.html</a></span>
-            <a onclick="mostraCodice('Python_Sommario_0.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span>📋 <a href="checklist.html" class="file-main">checklist.html</a> (Questa pagina)</span>
-            <a onclick="mostraCodice('checklist.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-    </ul>
-
-    <h3>🔹 Lezioni ML (Python)</h3>
-    <ul class="file-tree">
-        <li>
-            <span>📄 <a href="lezione1.html" class="file-main">Lezione 1 (Concetti)</a></span>
-            <a onclick="mostraCodice('lezione1.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 🖼️ <a href="ai_gerarchia.png" class="file-asset" target="_blank">ai_gerarchia.png</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_1.pdf" class="file-asset" target="_blank">Python_1.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione2.html" class="file-main">Lezione 2 (Regressione)</a></span>
-            <a onclick="mostraCodice('lezione2.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_2.pdf" class="file-asset" target="_blank">Python_2.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione3.html" class="file-main">Lezione 3 (Grafici)</a></span>
-            <a onclick="mostraCodice('lezione3.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 🖼️ <a href="grafico_VI.png" class="file-asset" target="_blank">grafico_VI.png</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_3.pdf" class="file-asset" target="_blank">Python_3.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione4.html" class="file-main">Lezione 4 (Errore)</a></span>
-            <a onclick="mostraCodice('lezione4.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_4.pdf" class="file-asset" target="_blank">Python_4.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione5.html" class="file-main">Lezione 5 (Sviluppo)</a></span>
-            <a onclick="mostraCodice('lezione5.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_5.pdf" class="file-asset" target="_blank">Python_5.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione6.html" class="file-main">Lezione 6 (Diodo)</a></span>
-            <a onclick="mostraCodice('lezione6.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_6.pdf" class="file-asset" target="_blank">Python_6.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>📄 <a href="lezione7.html" class="file-main">Lezione 7 (Ibrido)</a></span>
-            <a onclick="mostraCodice('lezione7.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_7.pdf" class="file-asset" target="_blank">Python_7.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-
-        <li>
-            <span>🎉 <a href="lezione8.html" class="file-main">Lezione 8 (Finale)</a></span>
-            <a onclick="mostraCodice('lezione8.html')" class="btn-code">👁️ Vedi Codice</a>
-        </li>
-        <li>
-            <span><span class="tree-branch">└──</span> 📄 <a href="Python_8.pdf" class="file-asset" target="_blank">Python_8.pdf</a></span>
-            <span class="label-repo">[Allegato]</span>
-        </li>
-    </ul>
-
-</div>
-
-<div id="codeModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span id="modal-title" style="color:white; font-weight:bold;">Sorgente</span>
-            <span class="close-btn" onclick="chiudiCodice()">&times;</span>
+    <div class="container">
+        <h1>📂 Mappa del Progetto Didattico</h1>
+        
+        <div class="warning-box">
+            ⚠️ A REGOLA REPOSITORY: Affinché le immagini e i PDF funzionino, tutti i file elencati qui sotto devono trovarsi nella <u>stessa cartella</u> dei file HTML.
         </div>
-        <div class="code-container">
-            <pre><code id="code-display">Caricamento...</code></pre>
+
+        <div class="folder-group">
+            <div class="folder-title">🖥️ Sistema Principale</div>
+            <ul>
+                <li><span class="icon type-html">📄</span> <span class="file-name">index.html</span> <span class="desc">(Home Page del corso)</span></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">Python_Sommario_0.html</span> <span class="desc">(Indice argomenti Python)</span></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">checklist.html</span> <span class="desc">(Questa pagina)</span></li>
+            </ul>
         </div>
+
+        <div class="folder-group">
+            <div class="folder-title">🎓 Lezioni ML (Python)</div>
+            
+            <ul>
+                <li><strong>Lezione 1 (Concetti)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione1.html</span></li>
+                <li><span class="icon type-img">🖼️</span> <span class="file-name">ai_gerarchia.png</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_1.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 2 (Regressione)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione2.html</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_2.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 3 (Grafici)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione3.html</span></li>
+                <li><span class="icon type-img">🖼️</span> <span class="file-name">grafico_misure.png</span> <span class="desc">(Generato da Python: Solo punti)</span></li>
+                <li><span class="icon type-img">🖼️</span> <span class="file-name">grafico_VI.png</span> <span class="desc">(Generato da Python: Retta finale)</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_3.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 4 (Errore)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione4.html</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_4.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 5 (Sviluppo)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione5.html</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_5.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 6 (Diodo Polinomiale)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione6.html</span></li>
+                <li><span class="icon type-py">🐍</span> <span class="file-name">genera_diodo.py</span> <span class="desc">(Script per creare il grafico)</span></li>
+                <li><span class="icon type-img">🖼️</span> <span class="file-name">grafico_diodo.png</span> <span class="desc">(Grafico con oscillazioni)</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_6.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 7 (Modello Ibrido)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione7.html</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_7.pdf</span></li>
+            </ul>
+
+            <ul>
+                <li style="margin-top:10px;"><strong>Lezione 8 (Finale & Punto di Lavoro)</strong></li>
+                <li><span class="icon type-html">📄</span> <span class="file-name">lezione8.html</span></li>
+                <li><span class="icon type-py">🐍</span> <span class="file-name">genera_punto_lavoro.py</span> <span class="desc">(Script per calcolo intersezione)</span></li>
+                <li><span class="icon type-img">🖼️</span> <span class="file-name">punto_lavoro.png</span> <span class="desc">(Grafico finale circuito)</span></li>
+                <li><span class="icon type-pdf">📕</span> <span class="file-name">Python_8.pdf</span></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="btn-home">🏠 Torna alla Home</a>
     </div>
-</div>
-
-<script>
-    function mostraCodice(nomeFile) {
-        if (nomeFile.toLowerCase().match(/\.(pdf|png|jpe?g)$/)) {
-            alert("I file allegati non hanno codice HTML visibile.");
-            return; 
-        }
-        const modal = document.getElementById('codeModal');
-        const codeDisplay = document.getElementById('code-display');
-        const titleDisplay = document.getElementById('modal-title');
-
-        modal.style.display = "block";
-        titleDisplay.innerText = "Sorgente di: " + nomeFile;
-        codeDisplay.innerText = "Caricamento in corso...";
-
-        fetch(nomeFile)
-            .then(response => {
-                if (!response.ok) throw new Error("File non trovato nella cartella!");
-                return response.text();
-            })
-            .then(testo => {
-                let testoSicuro = testo.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                codeDisplay.innerHTML = testoSicuro;
-            })
-            .catch(errore => {
-                codeDisplay.innerText = "Errore: " + errore;
-                codeDisplay.style.color = "#ff6b6b";
-            });
-    }
-
-    function chiudiCodice() {
-        document.getElementById('codeModal').style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('codeModal')) {
-            chiudiCodice();
-        }
-    }
-</script>
 
 </body>
 </html>
