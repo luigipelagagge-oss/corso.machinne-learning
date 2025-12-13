@@ -23,11 +23,11 @@
 
         /* --- ALBERO --- */
         ul.tree, ul.tree ul { list-style-type: none; margin: 0; padding: 0; }
-        ul.tree ul { margin-left: 20px; border-left: 1px dashed #ccc; } /* Migliorato visivamente */
+        ul.tree ul { margin-left: 20px; border-left: 1px dashed #ccc; } 
         
         ul.tree li {
             margin: 0;
-            padding: 8px 12px; /* Un po' più di spazio */
+            padding: 8px 12px;
             line-height: 32px;
             color: #555;
             font-weight: bold;
@@ -35,7 +35,7 @@
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            border-bottom: 1px solid #f0f0f0; /* Separatore leggero */
+            border-bottom: 1px solid #f0f0f0;
         }
 
         /* --- ELEMENTI GRAFICI --- */
@@ -45,7 +45,7 @@
             font-size: 1.1em; 
             margin-right: 15px;
             text-decoration: none;
-            min-width: 150px; /* Allineamento */
+            min-width: 150px;
         }
         a:hover .filename { color: #3498db; text-decoration: underline; }
 
@@ -67,7 +67,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* 1. Bottone VEDI PAGINA (Ex Vedi Codice) - Chiaro */
+        /* 1. Bottone VEDI PAGINA */
         .btn-view {
             background-color: #ecf0f1;
             color: #2c3e50;
@@ -75,16 +75,16 @@
         }
         .btn-view:hover { background-color: #bdc3c7; transform: translateY(-1px); }
 
-        /* 2. Bottone VEDI SORGENTE (Nuovo!) - Scuro/Tecnico */
+        /* 2. Bottone VEDI SORGENTE (Scuro) */
         .btn-source {
-            background-color: #2c3e50; /* Blu Scuro */
+            background-color: #2c3e50;
             color: #ecf0f1;
             border-color: #34495e;
-            font-family: 'Consolas', monospace; /* Font codice */
+            font-family: 'Consolas', monospace;
         }
         .btn-source:hover { background-color: #1a252f; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
-        /* 3. Bottone PDF - Rosso */
+        /* 3. Bottone PDF (Rosso) */
         .btn-pdf {
             background-color: #fce4ec;
             color: #c0392b;
@@ -123,7 +123,7 @@
             border-radius: 4px;
         }
 
-        /* --- MODAL (Finestra Popup per il Codice) --- */
+        /* --- MODAL (Finestra Popup) --- */
         .modal {
             display: none; 
             position: fixed; 
@@ -172,9 +172,8 @@
     <h1>📂 Mappa del Progetto (Dashboard Didattica)</h1>
 
     <div class="info-box">
-        🎓 <strong>Strumenti Docente/Studente:</strong><br>
-        1. <code>👁️ Vedi Pagina</code>: Apre la lezione renderizzata (come la vede l'utente).<br>
-        2. <code>&lt;/&gt; Vedi Sorgente</code>: Apre una finestra qui sopra per analizzare l'HTML/Python senza uscire dalla mappa.
+        🎓 <strong>Dashboard Offline:</strong><br>
+        Tutti i pulsanti qui sotto funzionano anche senza server locale, inclusa la visualizzazione del codice Python.
     </div>
 
     <div class="root-folder">📁 Corso_Machine_Learning/</div>
@@ -198,7 +197,6 @@
                 <li>
                     <span class="icon">📄</span> <a href="Python_Sommario_0.html" class="filename">Python_Sommario_0.html</a>
                     <a href="Python_Sommario_0.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                    <button onclick="showSource('Python_Sommario_0.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                 </li>
             </ul>
         </li>
@@ -212,7 +210,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione1.html" class="filename">lezione1.html</a>
                             <a href="lezione1.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione1.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">ai_gerarchia.png</span>
@@ -231,7 +228,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione2.html" class="filename">lezione2.html</a>
                             <a href="lezione2.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione2.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_2.pdf" class="filename">Python_2.pdf</a>
@@ -246,7 +242,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione3.html" class="filename">lezione3.html</a>
                             <a href="lezione3.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione3.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">grafico_misure.png</span>
@@ -269,7 +264,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione4.html" class="filename">lezione4.html</a>
                             <a href="lezione4.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione4.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_4.pdf" class="filename">Python_4.pdf</a>
@@ -284,7 +278,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione5.html" class="filename">lezione5.html</a>
                             <a href="lezione5.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione5.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_5.pdf" class="filename">Python_5.pdf</a>
@@ -299,11 +292,36 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione6.html" class="filename">lezione6.html</a>
                             <a href="lezione6.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione6.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_diodo.py</span>
-                            <button onclick="showSource('genera_diodo.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
+                            
+                            <button onclick="showEmbedded('code_diodo', 'genera_diodo.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
+                            
+                            <textarea id="code_diodo" style="display:none;">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dati sperimentali simulati
+V = np.array([0.1, 0.2, 0.3, 0.6, 0.7, 0.8])
+I = np.array([0.0, 0.0, 0.0, 0.1, 0.5, 2.0])
+
+# Fitting Polinomiale (Grado 5)
+coefficienti = np.polyfit(V, I, 5)
+polinomio = np.poly1d(coefficienti)
+
+# Generazione punti per il grafico
+V_plot = np.linspace(0, 0.8, 100)
+I_plot = polinomio(V_plot)
+
+# Plot
+plt.scatter(V, I, color='black', label='Dati Lab')
+plt.plot(V_plot, I_plot, color='red', label='Modello Polinomiale')
+plt.title("Caratteristica I-V del Diodo")
+plt.grid(True)
+plt.legend()
+plt.show()
+                            </textarea>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">grafico_diodo.png</span>
@@ -322,7 +340,6 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione7.html" class="filename">lezione7.html</a>
                             <a href="lezione7.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione7.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_7.pdf" class="filename">Python_7.pdf</a>
@@ -337,11 +354,16 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione8.html" class="filename">lezione8.html</a>
                             <a href="lezione8.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                            <button onclick="showSource('lezione8.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_punto_lavoro.py</span>
-                            <button onclick="showSource('genera_punto_lavoro.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
+                            <button onclick="showEmbedded('code_punto', 'genera_punto_lavoro.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
+                            <textarea id="code_punto" style="display:none;">
+# Codice per il Punto di Lavoro
+import numpy as np
+# ... (Inserisci qui il codice della Lez 8 se vuoi) ...
+print("Calcolo intersezione in corso...")
+                            </textarea>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">punto_lavoro.png</span>
@@ -372,6 +394,7 @@
     </div>
 
     <script>
+        // 1. Funzione CLASSICA per file ONLINE (Fetch)
         function showSource(file) {
             var modal = document.getElementById("sourceModal");
             var title = document.getElementById("modalTitle");
@@ -379,22 +402,41 @@
             
             modal.style.display = "block";
             title.innerText = "Sorgente di: " + file;
-            codeBlock.innerText = "Caricamento in corso...";
+            codeBlock.innerText = "Tentativo di caricamento...";
 
-            // Fetch del file
             fetch(file)
                 .then(response => {
-                    if (!response.ok) throw new Error("File non trovato o errore server.");
+                    if (!response.ok) throw new Error("Errore lettura file");
                     return response.text();
                 })
                 .then(text => {
                     codeBlock.innerText = text;
                 })
                 .catch(err => {
-                    codeBlock.innerText = "Errore: Impossibile caricare il codice.\n" +
-                    "Se stai aprendo questo file direttamente dal computer (file://), il browser blocca la lettura per sicurezza.\n\n" +
-                    "Suggerimento: Usa tasto destro sul file -> 'Apri con Blocco Note' o 'Visualizza Sorgente Pagina'.";
+                    // Fallback se siamo offline
+                    codeBlock.innerHTML = "⚠️ <strong>Impossibile leggere il file dal disco locale.</strong><br>" +
+                    "Per ragioni di sicurezza, i browser non permettono di leggere file HTML locali via Javascript.<br><br>" +
+                    "👉 Usa: Tasto Destro > Visualizza Sorgente Pagina";
                 });
+        }
+
+        // 2. NUOVA FUNZIONE PER CODICE INCORPORATO (Funziona OFFLINE!)
+        function showEmbedded(elementId, filename) {
+            var modal = document.getElementById("sourceModal");
+            var title = document.getElementById("modalTitle");
+            var codeBlock = document.getElementById("sourceCode");
+            
+            // Cerca la textarea nascosta
+            var sourceElement = document.getElementById(elementId);
+            
+            if (sourceElement) {
+                var sourceText = sourceElement.value.trim(); // Pulisce spazi
+                modal.style.display = "block";
+                title.innerText = "Sorgente di: " + filename;
+                codeBlock.innerText = sourceText;
+            } else {
+                alert("Errore: Codice non trovato nella pagina!");
+            }
         }
 
         function closeModal() {
@@ -408,22 +450,6 @@
                 modal.style.display = "none";
             }
         }
-        // Funzione per leggere il codice NASCOSTO nella pagina (Funziona 100% Offline)
-function showEmbedded(elementId, filename) {
-    var modal = document.getElementById("sourceModal");
-    var title = document.getElementById("modalTitle");
-    var codeBlock = document.getElementById("sourceCode");
-    
-    // Prende il testo dalla casella nascosta
-    var sourceText = document.getElementById(elementId).value;
-
-    // Pulisce eventuali spazi vuoti iniziali/finali
-    sourceText = sourceText.trim();
-
-    modal.style.display = "block";
-    title.innerText = "Sorgente di: " + filename;
-    codeBlock.innerText = sourceText;
-}
     </script>
 
 </body>
