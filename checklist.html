@@ -408,6 +408,22 @@
                 modal.style.display = "none";
             }
         }
+        // Funzione per leggere il codice NASCOSTO nella pagina (Funziona 100% Offline)
+function showEmbedded(elementId, filename) {
+    var modal = document.getElementById("sourceModal");
+    var title = document.getElementById("modalTitle");
+    var codeBlock = document.getElementById("sourceCode");
+    
+    // Prende il testo dalla casella nascosta
+    var sourceText = document.getElementById(elementId).value;
+
+    // Pulisce eventuali spazi vuoti iniziali/finali
+    sourceText = sourceText.trim();
+
+    modal.style.display = "block";
+    title.innerText = "Sorgente di: " + filename;
+    codeBlock.innerText = sourceText;
+}
     </script>
 
 </body>
