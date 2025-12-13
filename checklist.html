@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Mappa del Progetto - Laboratorio Didattico</title>
+    <title>Mappa del Progetto - Dashboard Didattica</title>
     <style>
         /* --- STILE STRUTTURALE (Tree View) --- */
         body {
@@ -23,86 +23,79 @@
 
         /* --- ALBERO --- */
         ul.tree, ul.tree ul { list-style-type: none; margin: 0; padding: 0; }
-        ul.tree ul { margin-left: 20px; } /* Rientro aumentato per chiarezza */
+        ul.tree ul { margin-left: 20px; border-left: 1px dashed #ccc; } /* Migliorato visivamente */
         
         ul.tree li {
             margin: 0;
-            padding: 5px 12px;
-            line-height: 32px; /* Più spazio per i bottoni */
+            padding: 8px 12px; /* Un po' più di spazio */
+            line-height: 32px;
             color: #555;
             font-weight: bold;
             position: relative;
-            border-left: 1px solid #999;
             display: flex;
-            align-items: center; /* Allinea icone, testo e bottoni */
-            flex-wrap: wrap; /* Permette a preview grandi di andare a capo se serve */
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #f0f0f0; /* Separatore leggero */
         }
 
-        ul.tree li:last-child { border-left: none; }
-
-        ul.tree li:before {
-            position: relative;
-            top: 0; /* Aggiustato per allineamento flex */
-            height: 1em;
-            width: 15px;
-            color: white;
-            border-bottom: 1px solid #999;
-            content: "";
-            display: inline-block;
-            left: -7px;
-            margin-right: 5px;
-        }
-
-        ul.tree li:last-child:before { border-left: 1px solid #999; }
-
-        /* --- BOTTONI DIDATTICI & ELEMENTI --- */
-        
-        /* Nome File */
+        /* --- ELEMENTI GRAFICI --- */
         .filename { 
             color: #2c3e50; 
             font-weight: bold; 
             font-size: 1.1em; 
             margin-right: 15px;
             text-decoration: none;
+            min-width: 150px; /* Allineamento */
         }
         a:hover .filename { color: #3498db; text-decoration: underline; }
 
-        /* Icone */
-        .icon { font-size: 1.2em; margin-right: 8px; width: 20px; text-align: center; display: inline-block; }
+        .icon { font-size: 1.3em; margin-right: 10px; width: 25px; text-align: center; }
+        .folder-icon { color: #f39c12; margin-right: 5px; font-size: 1.2em; }
         
-        /* Badge/Bottoni */
+        /* --- BOTTONI DIDATTICI --- */
         .badge {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 4px 10px;
             border-radius: 4px;
             font-size: 0.85em;
             font-family: 'Segoe UI', sans-serif;
-            margin-left: 10px;
+            margin-left: 5px;
             text-decoration: none;
             transition: all 0.2s;
             border: 1px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* Stile "Vedi Codice" (HTML) */
-        .btn-code {
+        /* 1. Bottone VEDI PAGINA (Ex Vedi Codice) - Chiaro */
+        .btn-view {
             background-color: #ecf0f1;
             color: #2c3e50;
             border-color: #bdc3c7;
         }
-        .btn-code:hover { background-color: #bdc3c7; color: #000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-view:hover { background-color: #bdc3c7; transform: translateY(-1px); }
 
-        /* Stile "PDF" */
+        /* 2. Bottone VEDI SORGENTE (Nuovo!) - Scuro/Tecnico */
+        .btn-source {
+            background-color: #2c3e50; /* Blu Scuro */
+            color: #ecf0f1;
+            border-color: #34495e;
+            font-family: 'Consolas', monospace; /* Font codice */
+        }
+        .btn-source:hover { background-color: #1a252f; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* 3. Bottone PDF - Rosso */
         .btn-pdf {
             background-color: #fce4ec;
             color: #c0392b;
             border-color: #e57373;
         }
-        .btn-pdf:hover { background-color: #f8bbd0; }
+        .btn-pdf:hover { background-color: #f8bbd0; transform: translateY(-1px); }
 
-        /* Preview Immagini (Thumbnail) */
+        /* Preview Immagini */
         .img-preview {
-            height: 40px; /* Miniatura */
-            border: 1px solid #ccc;
+            height: 35px;
+            border: 1px solid #ddd;
             border-radius: 3px;
             margin-left: 15px;
             vertical-align: middle;
@@ -111,30 +104,15 @@
             padding: 2px;
         }
         .img-preview:hover {
-            transform: scale(3); /* Zoom al passaggio del mouse */
+            transform: scale(4);
             position: relative;
             z-index: 100;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: #3498db;
         }
 
-        /* Commenti Tecnici */
         .comment { color: #95a5a6; font-style: italic; font-size: 0.9em; margin-left: 15px; font-weight: normal; }
-
         .root-folder { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
-        .folder-icon { color: #f39c12; margin-right: 5px; }
-
-        .btn-back {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 12px 25px;
-            background: #2c3e50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: bold;
-        }
-        .btn-back:hover { background: #34495e; }
 
         .info-box {
             background: #e8f4fc;
@@ -144,14 +122,59 @@
             font-family: 'Segoe UI', sans-serif;
             border-radius: 4px;
         }
+
+        /* --- MODAL (Finestra Popup per il Codice) --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(3px);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .modal-header {
+            padding: 15px 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-btn { color: white; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: #e74c3c; }
+        .modal-body {
+            padding: 20px;
+            overflow: auto;
+            background: #f8f9fa;
+            flex-grow: 1;
+        }
+        pre { margin: 0; }
+        code { font-family: 'Consolas', monospace; color: #333; }
     </style>
 </head>
 <body>
 
-    <h1>📂 Mappa del Progetto (Didattica)</h1>
+    <h1>📂 Mappa del Progetto (Dashboard Didattica)</h1>
 
     <div class="info-box">
-        🎓 <strong>Modalità Studio:</strong> Usa i pulsanti <code>&lt;&gt; Vedi Codice</code> per analizzare come sono fatte le pagine. Passa il mouse sulle immagini per ingrandirle.
+        🎓 <strong>Strumenti Docente/Studente:</strong><br>
+        1. <code>👁️ Vedi Pagina</code>: Apre la lezione renderizzata (come la vede l'utente).<br>
+        2. <code>&lt;/&gt; Vedi Sorgente</code>: Apre una finestra qui sopra per analizzare l'HTML/Python senza uscire dalla mappa.
     </div>
 
     <div class="root-folder">📁 Corso_Machine_Learning/</div>
@@ -162,17 +185,20 @@
             <ul>
                 <li>
                     <span class="icon">📄</span> <a href="index.html" class="filename">index.html</a>
-                    <a href="index.html" class="badge btn-code" title="Apri per studiare il codice">&lt;&gt; Vedi Codice</a>
+                    <a href="index.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                    <button onclick="showSource('index.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                     <span class="comment">// Home Page</span>
                 </li>
                 <li>
                     <span class="icon">📄</span> <a href="checklist.html" class="filename">checklist.html</a>
-                    <a href="checklist.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                    <a href="checklist.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                    <button onclick="showSource('checklist.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                     <span class="comment">// (Questa pagina)</span>
                 </li>
                 <li>
                     <span class="icon">📄</span> <a href="Python_Sommario_0.html" class="filename">Python_Sommario_0.html</a>
-                    <a href="Python_Sommario_0.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                    <a href="Python_Sommario_0.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                    <button onclick="showSource('Python_Sommario_0.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                 </li>
             </ul>
         </li>
@@ -185,7 +211,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione1.html" class="filename">lezione1.html</a>
-                            <a href="lezione1.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione1.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione1.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">ai_gerarchia.png</span>
@@ -203,7 +230,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione2.html" class="filename">lezione2.html</a>
-                            <a href="lezione2.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione2.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione2.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_2.pdf" class="filename">Python_2.pdf</a>
@@ -217,7 +245,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione3.html" class="filename">lezione3.html</a>
-                            <a href="lezione3.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione3.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione3.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">grafico_misure.png</span>
@@ -239,7 +268,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione4.html" class="filename">lezione4.html</a>
-                            <a href="lezione4.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione4.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione4.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_4.pdf" class="filename">Python_4.pdf</a>
@@ -253,7 +283,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione5.html" class="filename">lezione5.html</a>
-                            <a href="lezione5.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione5.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione5.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_5.pdf" class="filename">Python_5.pdf</a>
@@ -267,15 +298,16 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione6.html" class="filename">lezione6.html</a>
-                            <a href="lezione6.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione6.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione6.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_diodo.py</span>
-                            <span class="comment">// Script Python</span>
+                            <button onclick="showSource('genera_diodo.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">grafico_diodo.png</span>
-                            <img src="grafico_diodo.png" class="img-preview" alt="Grafico Diodo">
+                            <img src="grafico_diodo.png" class="img-preview" alt="Grafico">
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_6.pdf" class="filename">Python_6.pdf</a>
@@ -289,7 +321,8 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione7.html" class="filename">lezione7.html</a>
-                            <a href="lezione7.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione7.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione7.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">📕</span> <a href="Python_7.pdf" class="filename">Python_7.pdf</a>
@@ -303,11 +336,12 @@
                     <ul>
                         <li>
                             <span class="icon">📄</span> <a href="lezione8.html" class="filename">lezione8.html</a>
-                            <a href="lezione8.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                            <a href="lezione8.html" class="badge btn-view">👁️ Vedi Pagina</a>
+                            <button onclick="showSource('lezione8.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                         </li>
                         <li>
                             <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_punto_lavoro.py</span>
-                            <span class="comment">// Script Python</span>
+                            <button onclick="showSource('genera_punto_lavoro.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">punto_lavoro.png</span>
@@ -324,6 +358,57 @@
     </ul>
 
     <a href="index.html" class="btn-back">⬅ Torna alla Home</a>
+
+    <div id="sourceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" style="margin:0">Codice Sorgente</h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre><code id="sourceCode">Caricamento...</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSource(file) {
+            var modal = document.getElementById("sourceModal");
+            var title = document.getElementById("modalTitle");
+            var codeBlock = document.getElementById("sourceCode");
+            
+            modal.style.display = "block";
+            title.innerText = "Sorgente di: " + file;
+            codeBlock.innerText = "Caricamento in corso...";
+
+            // Fetch del file
+            fetch(file)
+                .then(response => {
+                    if (!response.ok) throw new Error("File non trovato o errore server.");
+                    return response.text();
+                })
+                .then(text => {
+                    codeBlock.innerText = text;
+                })
+                .catch(err => {
+                    codeBlock.innerText = "Errore: Impossibile caricare il codice.\n" +
+                    "Se stai aprendo questo file direttamente dal computer (file://), il browser blocca la lettura per sicurezza.\n\n" +
+                    "Suggerimento: Usa tasto destro sul file -> 'Apri con Blocco Note' o 'Visualizza Sorgente Pagina'.";
+                });
+        }
+
+        function closeModal() {
+            document.getElementById("sourceModal").style.display = "none";
+        }
+
+        // Chiudi se si clicca fuori
+        window.onclick = function(event) {
+            var modal = document.getElementById("sourceModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
