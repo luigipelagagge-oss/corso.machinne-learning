@@ -52,7 +52,7 @@
         .icon { font-size: 1.3em; margin-right: 10px; width: 25px; text-align: center; }
         .folder-icon { color: #f39c12; margin-right: 5px; font-size: 1.2em; }
         
-        /* --- BOTTONI DIDATTICI --- */
+        /* --- BADGE E BOTTONI --- */
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -67,7 +67,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* 1. Bottone VEDI PAGINA */
+        /* Bottone VEDI PAGINA */
         .btn-view {
             background-color: #ecf0f1;
             color: #2c3e50;
@@ -75,16 +75,7 @@
         }
         .btn-view:hover { background-color: #bdc3c7; transform: translateY(-1px); }
 
-        /* 2. Bottone VEDI SORGENTE (Scuro) */
-        .btn-source {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            border-color: #34495e;
-            font-family: 'Consolas', monospace;
-        }
-        .btn-source:hover { background-color: #1a252f; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* 3. Bottone PDF (Rosso) */
+        /* Bottone PDF */
         .btn-pdf {
             background-color: #fce4ec;
             color: #c0392b;
@@ -115,56 +106,27 @@
         .root-folder { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
 
         .info-box {
-            background: #e8f4fc;
-            border-left: 5px solid #3498db;
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            color: #155724;
             padding: 15px;
             margin-bottom: 30px;
             font-family: 'Segoe UI', sans-serif;
             border-radius: 4px;
         }
-
-        /* --- MODAL (Finestra Popup) --- */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0; top: 0; 
-            width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.6); 
-            backdrop-filter: blur(3px);
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 0;
-            border: 1px solid #888;
-            width: 80%;
-            height: 80%;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .modal-header {
-            padding: 15px 20px;
+        
+        .btn-back {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 25px;
             background: #2c3e50;
             color: white;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
         }
-        .close-btn { color: white; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close-btn:hover { color: #e74c3c; }
-        .modal-body {
-            padding: 20px;
-            overflow: auto;
-            background: #f8f9fa;
-            flex-grow: 1;
-        }
-        pre { margin: 0; }
-        code { font-family: 'Consolas', monospace; color: #333; }
+        .btn-back:hover { background: #34495e; }
     </style>
 </head>
 <body>
@@ -172,8 +134,8 @@
     <h1>📂 Mappa del Progetto (Dashboard Didattica)</h1>
 
     <div class="info-box">
-        🎓 <strong>Dashboard Offline:</strong><br>
-        Tutti i pulsanti qui sotto funzionano anche senza server locale, inclusa la visualizzazione del codice Python.
+        ✅ <strong>Struttura Ottimizzata:</strong><br>
+        I file Python sono stati rimossi dall'indice per pulizia. Il codice sorgente è consultabile direttamente all'interno delle pagine web delle lezioni o nei PDF allegati.
     </div>
 
     <div class="root-folder">📁 Corso_Machine_Learning/</div>
@@ -185,13 +147,11 @@
                 <li>
                     <span class="icon">📄</span> <a href="index.html" class="filename">index.html</a>
                     <a href="index.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                    <button onclick="showSource('index.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                     <span class="comment">// Home Page</span>
                 </li>
                 <li>
                     <span class="icon">📄</span> <a href="checklist.html" class="filename">checklist.html</a>
                     <a href="checklist.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                    <button onclick="showSource('checklist.html')" class="badge btn-source">&lt;/&gt; Vedi Sorgente</button>
                     <span class="comment">// (Questa pagina)</span>
                 </li>
                 <li>
@@ -292,36 +252,7 @@
                         <li>
                             <span class="icon">📄</span> <a href="lezione6.html" class="filename">lezione6.html</a>
                             <a href="lezione6.html" class="badge btn-view">👁️ Vedi Pagina</a>
-                        </li>
-                        <li>
-                            <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_diodo.py</span>
-                            
-                            <button onclick="showEmbedded('code_diodo', 'genera_diodo.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
-                            
-                            <textarea id="code_diodo" style="display:none;">
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Dati sperimentali simulati
-V = np.array([0.1, 0.2, 0.3, 0.6, 0.7, 0.8])
-I = np.array([0.0, 0.0, 0.0, 0.1, 0.5, 2.0])
-
-# Fitting Polinomiale (Grado 5)
-coefficienti = np.polyfit(V, I, 5)
-polinomio = np.poly1d(coefficienti)
-
-# Generazione punti per il grafico
-V_plot = np.linspace(0, 0.8, 100)
-I_plot = polinomio(V_plot)
-
-# Plot
-plt.scatter(V, I, color='black', label='Dati Lab')
-plt.plot(V_plot, I_plot, color='red', label='Modello Polinomiale')
-plt.title("Caratteristica I-V del Diodo")
-plt.grid(True)
-plt.legend()
-plt.show()
-                            </textarea>
+                            <span class="comment">// Include codice e grafici</span>
                         </li>
                         <li>
                             <span class="icon">🖼️</span> <span class="filename">grafico_diodo.png</span>
@@ -356,16 +287,6 @@ plt.show()
                             <a href="lezione8.html" class="badge btn-view">👁️ Vedi Pagina</a>
                         </li>
                         <li>
-                            <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_punto_lavoro.py</span>
-                            <button onclick="showEmbedded('code_punto', 'genera_punto_lavoro.py')" class="badge btn-source">&lt;/&gt; Vedi Codice Python</button>
-                            <textarea id="code_punto" style="display:none;">
-# Codice per il Punto di Lavoro
-import numpy as np
-# ... (Inserisci qui il codice della Lez 8 se vuoi) ...
-print("Calcolo intersezione in corso...")
-                            </textarea>
-                        </li>
-                        <li>
                             <span class="icon">🖼️</span> <span class="filename">punto_lavoro.png</span>
                             <img src="punto_lavoro.png" class="img-preview" alt="Punto Lavoro">
                         </li>
@@ -380,77 +301,6 @@ print("Calcolo intersezione in corso...")
     </ul>
 
     <a href="index.html" class="btn-back">⬅ Torna alla Home</a>
-
-    <div id="sourceModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle" style="margin:0">Codice Sorgente</h3>
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <pre><code id="sourceCode">Caricamento...</code></pre>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 1. Funzione CLASSICA per file ONLINE (Fetch)
-        function showSource(file) {
-            var modal = document.getElementById("sourceModal");
-            var title = document.getElementById("modalTitle");
-            var codeBlock = document.getElementById("sourceCode");
-            
-            modal.style.display = "block";
-            title.innerText = "Sorgente di: " + file;
-            codeBlock.innerText = "Tentativo di caricamento...";
-
-            fetch(file)
-                .then(response => {
-                    if (!response.ok) throw new Error("Errore lettura file");
-                    return response.text();
-                })
-                .then(text => {
-                    codeBlock.innerText = text;
-                })
-                .catch(err => {
-                    // Fallback se siamo offline
-                    codeBlock.innerHTML = "⚠️ <strong>Impossibile leggere il file dal disco locale.</strong><br>" +
-                    "Per ragioni di sicurezza, i browser non permettono di leggere file HTML locali via Javascript.<br><br>" +
-                    "👉 Usa: Tasto Destro > Visualizza Sorgente Pagina";
-                });
-        }
-
-        // 2. NUOVA FUNZIONE PER CODICE INCORPORATO (Funziona OFFLINE!)
-        function showEmbedded(elementId, filename) {
-            var modal = document.getElementById("sourceModal");
-            var title = document.getElementById("modalTitle");
-            var codeBlock = document.getElementById("sourceCode");
-            
-            // Cerca la textarea nascosta
-            var sourceElement = document.getElementById(elementId);
-            
-            if (sourceElement) {
-                var sourceText = sourceElement.value.trim(); // Pulisce spazi
-                modal.style.display = "block";
-                title.innerText = "Sorgente di: " + filename;
-                codeBlock.innerText = sourceText;
-            } else {
-                alert("Errore: Codice non trovato nella pagina!");
-            }
-        }
-
-        function closeModal() {
-            document.getElementById("sourceModal").style.display = "none";
-        }
-
-        // Chiudi se si clicca fuori
-        window.onclick = function(event) {
-            var modal = document.getElementById("sourceModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
 
 </body>
 </html>
