@@ -2,198 +2,321 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Mappa del Progetto - Struttura Completa</title>
+    <title>Mappa del Progetto - Laboratorio Didattico</title>
     <style>
+        /* --- STILE STRUTTURALE (Tree View) --- */
         body {
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* Font tecnico */
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             background-color: #fafafa;
             color: #333;
             padding: 40px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         h1 {
             font-family: 'Segoe UI', sans-serif;
             color: #2c3e50;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 3px solid #3498db;
             padding-bottom: 10px;
             margin-bottom: 30px;
         }
 
-        /* STILE AD ALBERO (TREE VIEW) */
-        ul.tree, ul.tree ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        ul.tree ul {
-            margin-left: 10px; /* Indentazione */
-        }
-
+        /* --- ALBERO --- */
+        ul.tree, ul.tree ul { list-style-type: none; margin: 0; padding: 0; }
+        ul.tree ul { margin-left: 20px; } /* Rientro aumentato per chiarezza */
+        
         ul.tree li {
             margin: 0;
-            padding: 0 12px;
-            line-height: 25px;
+            padding: 5px 12px;
+            line-height: 32px; /* Più spazio per i bottoni */
             color: #555;
             font-weight: bold;
             position: relative;
-            border-left: 1px solid #999; /* Linea verticale principale */
+            border-left: 1px solid #999;
+            display: flex;
+            align-items: center; /* Allinea icone, testo e bottoni */
+            flex-wrap: wrap; /* Permette a preview grandi di andare a capo se serve */
         }
 
-        ul.tree li:last-child {
-            border-left: none; /* Rimuove linea verticale dopo l'ultimo elemento */
-        }
+        ul.tree li:last-child { border-left: none; }
 
         ul.tree li:before {
             position: relative;
-            top: -0.3em;
+            top: 0; /* Aggiustato per allineamento flex */
             height: 1em;
-            width: 12px;
+            width: 15px;
             color: white;
-            border-bottom: 1px solid #999; /* Linea orizzontale di connessione */
+            border-bottom: 1px solid #999;
             content: "";
             display: inline-block;
             left: -7px;
+            margin-right: 5px;
         }
 
-        ul.tree li:last-child:before {
-            border-left: 1px solid #999; /* Angolo per l'ultimo elemento */
-        }
+        ul.tree li:last-child:before { border-left: 1px solid #999; }
 
-        /* ICONE E COLORI */
-        .folder { color: #f39c12; margin-right: 5px; } /* Cartella Gialla */
+        /* --- BOTTONI DIDATTICI & ELEMENTI --- */
         
-        .file-html { color: #e44d26; } /* HTML Arancione */
-        .file-py   { color: #f1c40f; text-shadow: 1px 1px 0 #eee; } /* Python Giallo/Oro */
-        .file-img  { color: #2ecc71; } /* Immagini Verdi */
-        .file-pdf  { color: #e74c3c; } /* PDF Rosso */
-        
-        .filename { color: #2c3e50; font-weight: normal; }
-        .comment { color: #95a5a6; font-style: italic; font-size: 0.9em; margin-left: 10px; font-weight: normal; }
-
-        .root-folder {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
+        /* Nome File */
+        .filename { 
+            color: #2c3e50; 
+            font-weight: bold; 
+            font-size: 1.1em; 
+            margin-right: 15px;
+            text-decoration: none;
         }
+        a:hover .filename { color: #3498db; text-decoration: underline; }
+
+        /* Icone */
+        .icon { font-size: 1.2em; margin-right: 8px; width: 20px; text-align: center; display: inline-block; }
         
-        /* BOX AVVISO */
-        .info-box {
-            background: #e8f4fc;
-            border: 1px solid #3498db;
-            color: #2980b9;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 30px;
+        /* Badge/Bottoni */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
             font-family: 'Segoe UI', sans-serif;
+            margin-left: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }
+
+        /* Stile "Vedi Codice" (HTML) */
+        .btn-code {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border-color: #bdc3c7;
+        }
+        .btn-code:hover { background-color: #bdc3c7; color: #000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Stile "PDF" */
+        .btn-pdf {
+            background-color: #fce4ec;
+            color: #c0392b;
+            border-color: #e57373;
+        }
+        .btn-pdf:hover { background-color: #f8bbd0; }
+
+        /* Preview Immagini (Thumbnail) */
+        .img-preview {
+            height: 40px; /* Miniatura */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-left: 15px;
+            vertical-align: middle;
+            transition: transform 0.2s;
+            background: white;
+            padding: 2px;
+        }
+        .img-preview:hover {
+            transform: scale(3); /* Zoom al passaggio del mouse */
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Commenti Tecnici */
+        .comment { color: #95a5a6; font-style: italic; font-size: 0.9em; margin-left: 15px; font-weight: normal; }
+
+        .root-folder { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
+        .folder-icon { color: #f39c12; margin-right: 5px; }
 
         .btn-back {
             display: inline-block;
-            margin-top: 30px;
-            padding: 10px 20px;
+            margin-top: 40px;
+            padding: 12px 25px;
             background: #2c3e50;
             color: white;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 5px;
             font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
         }
         .btn-back:hover { background: #34495e; }
+
+        .info-box {
+            background: #e8f4fc;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-family: 'Segoe UI', sans-serif;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>📂 Mappa File del Progetto</h1>
+    <h1>📂 Mappa del Progetto (Didattica)</h1>
 
     <div class="info-box">
-        ℹ️ <strong>Struttura File System:</strong> Assicurati che tutti i file elencati qui sotto siano presenti nella <strong>stessa cartella</strong> sul tuo computer affinché i collegamenti funzionino.
+        🎓 <strong>Modalità Studio:</strong> Usa i pulsanti <code>&lt;&gt; Vedi Codice</code> per analizzare come sono fatte le pagine. Passa il mouse sulle immagini per ingrandirle.
     </div>
 
     <div class="root-folder">📁 Corso_Machine_Learning/</div>
 
     <ul class="tree">
         <li>
-            <span class="folder">📂</span> Sistema
+            <span class="folder-icon">📂</span> Sistema
             <ul>
-                <li><span class="file-html">📄</span> <span class="filename">index.html</span> <span class="comment">// Home Page</span></li>
-                <li><span class="file-html">📄</span> <span class="filename">checklist.html</span> <span class="comment">// (Questo file)</span></li>
-                <li><span class="file-html">📄</span> <span class="filename">Python_Sommario_0.html</span></li>
+                <li>
+                    <span class="icon">📄</span> <a href="index.html" class="filename">index.html</a>
+                    <a href="index.html" class="badge btn-code" title="Apri per studiare il codice">&lt;&gt; Vedi Codice</a>
+                    <span class="comment">// Home Page</span>
+                </li>
+                <li>
+                    <span class="icon">📄</span> <a href="checklist.html" class="filename">checklist.html</a>
+                    <a href="checklist.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                    <span class="comment">// (Questa pagina)</span>
+                </li>
+                <li>
+                    <span class="icon">📄</span> <a href="Python_Sommario_0.html" class="filename">Python_Sommario_0.html</a>
+                    <a href="Python_Sommario_0.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                </li>
             </ul>
         </li>
 
         <li>
-            <span class="folder">📂</span> Lezioni
+            <span class="folder-icon">📂</span> Lezioni
             <ul>
                 <li>
-                    <span class="folder">📁</span> Lezione_01
+                    <span class="folder-icon">📁</span> Lezione_01
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione1.html</span></li>
-                        <li><span class="file-img">🖼️</span> <span class="filename">ai_gerarchia.png</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_1.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione1.html" class="filename">lezione1.html</a>
+                            <a href="lezione1.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">ai_gerarchia.png</span>
+                            <img src="ai_gerarchia.png" class="img-preview" alt="Anteprima">
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_1.pdf" class="filename">Python_1.pdf</a>
+                            <a href="Python_1.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_02
+                    <span class="folder-icon">📁</span> Lezione_02
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione2.html</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_2.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione2.html" class="filename">lezione2.html</a>
+                            <a href="lezione2.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_2.pdf" class="filename">Python_2.pdf</a>
+                            <a href="Python_2.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_03
+                    <span class="folder-icon">📁</span> Lezione_03
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione3.html</span></li>
-                        <li><span class="file-img">🖼️</span> <span class="filename">grafico_misure.png</span> <span class="comment">// Scatter plot punti</span></li>
-                        <li><span class="file-img">🖼️</span> <span class="filename">grafico_VI.png</span> <span class="comment">// Grafico completo</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_3.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione3.html" class="filename">lezione3.html</a>
+                            <a href="lezione3.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">grafico_misure.png</span>
+                            <img src="grafico_misure.png" class="img-preview" alt="Scatter">
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">grafico_VI.png</span>
+                            <img src="grafico_VI.png" class="img-preview" alt="Retta">
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_3.pdf" class="filename">Python_3.pdf</a>
+                            <a href="Python_3.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_04
+                    <span class="folder-icon">📁</span> Lezione_04
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione4.html</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_4.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione4.html" class="filename">lezione4.html</a>
+                            <a href="lezione4.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_4.pdf" class="filename">Python_4.pdf</a>
+                            <a href="Python_4.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_05
+                    <span class="folder-icon">📁</span> Lezione_05
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione5.html</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_5.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione5.html" class="filename">lezione5.html</a>
+                            <a href="lezione5.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_5.pdf" class="filename">Python_5.pdf</a>
+                            <a href="Python_5.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_06 (Diodo Polinomiale)
+                    <span class="folder-icon">📁</span> Lezione_06 (Diodo)
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione6.html</span></li>
-                        <li><span class="file-py">🐍</span> <span class="filename">genera_diodo.py</span> <span class="comment">// Script Generatore</span></li>
-                        <li><span class="file-img">🖼️</span> <span class="filename">grafico_diodo.png</span> <span class="comment">// Output Python</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_6.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione6.html" class="filename">lezione6.html</a>
+                            <a href="lezione6.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_diodo.py</span>
+                            <span class="comment">// Script Python</span>
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">grafico_diodo.png</span>
+                            <img src="grafico_diodo.png" class="img-preview" alt="Grafico Diodo">
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_6.pdf" class="filename">Python_6.pdf</a>
+                            <a href="Python_6.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_07
+                    <span class="folder-icon">📁</span> Lezione_07
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione7.html</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_7.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione7.html" class="filename">lezione7.html</a>
+                            <a href="lezione7.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_7.pdf" class="filename">Python_7.pdf</a>
+                            <a href="Python_7.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <span class="folder">📁</span> Lezione_08 (Punto di Lavoro)
+                    <span class="folder-icon">📁</span> Lezione_08 (Finale)
                     <ul>
-                        <li><span class="file-html">📄</span> <span class="filename">lezione8.html</span></li>
-                        <li><span class="file-py">🐍</span> <span class="filename">genera_punto_lavoro.py</span> <span class="comment">// Script Generatore</span></li>
-                        <li><span class="file-img">🖼️</span> <span class="filename">punto_lavoro.png</span> <span class="comment">// Output Python</span></li>
-                        <li><span class="file-pdf">📕</span> <span class="filename">Python_8.pdf</span></li>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione8.html" class="filename">lezione8.html</a>
+                            <a href="lezione8.html" class="badge btn-code">&lt;&gt; Vedi Codice</a>
+                        </li>
+                        <li>
+                            <span class="icon">🐍</span> <span class="filename" style="color:#f39c12">genera_punto_lavoro.py</span>
+                            <span class="comment">// Script Python</span>
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">punto_lavoro.png</span>
+                            <img src="punto_lavoro.png" class="img-preview" alt="Punto Lavoro">
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_8.pdf" class="filename">Python_8.pdf</a>
+                            <a href="Python_8.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
