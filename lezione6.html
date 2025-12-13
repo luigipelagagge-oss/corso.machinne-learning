@@ -3,566 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <title>Lezione 6: Regressione Polinomiale - Il Diodo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* --- STILE BASE (Layout Standard) --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+        /* --- STILE BASE --- */
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; color: #333; }
         
-        /* --- TEMA VIOLA (Specifico Lezione 6) --- */
-        .header {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad); /* Viola */
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        /* --- HEADER VIOLA --- */
+        .header { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; padding: 40px; border-radius: 15px; text-align: center; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1 { margin: 0 0 10px 0; font-size: 2.5em; }
         
-        h1 { margin-bottom: 10px; color: white; font-size: 2.5em; }
+        /* --- NAVIGAZIONE --- */
+        .nav { background: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+        .nav a { display: inline-block; margin: 0 10px; padding: 10px 20px; background: #9b59b6; color: white; text-decoration: none; border-radius: 20px; font-weight: bold; transition: all 0.3s; }
+        .nav a:hover { background: #8e44ad; transform: translateY(-2px); }
         
-        .nav {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-        
-        .nav a {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 12px 25px;
-            background: #9b59b6; /* Bottone Viola */
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        .nav a:hover { 
-            background: #8e44ad; 
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-        
-        .content {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-        
-        h2 {
-            color: #2c3e50;
-            border-bottom: 3px solid #9b59b6; /* Sottolineatura Viola */
-            padding-bottom: 12px;
-            margin-top: 40px;
-            margin-bottom: 25px;
-        }
-        
-        h3 {
-            color: #8e44ad;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        
-        /* BOX */
-        .box {
-            background: #f4ecf7; /* Sfondo viola chiarissimo */
-            padding: 25px;
-            margin: 25px 0;
-            border-left: 5px solid #9b59b6;
-            border-radius: 8px;
-        }
-        
-        .box.warning {
-            background: #fff8e1;
-            border-left-color: #ffb300;
-        }
-        
-        .box.danger {
-            background: #fde8e8;
-            border-left-color: #e74c3c;
-        }
-        
-        /* CODICE */
-        .code-container {
-            position: relative;
-            margin: 25px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        /* --- CONTENUTO --- */
+        .content { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+        h2 { color: #2c3e50; border-bottom: 3px solid #9b59b6; padding-bottom: 10px; margin-top: 40px; }
+        h3 { color: #8e44ad; margin-top: 25px; }
 
-        .code-header {
-            background: #2c3e50;
-            color: white;
-            padding: 12px 20px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* --- BOX DIDATTICI --- */
+        .box { background: #f4ecf7; padding: 20px; margin: 25px 0; border-left: 5px solid #9b59b6; border-radius: 5px; }
+        .box.warning { background: #fff8e1; border-left-color: #ffb300; }
+        .box.danger { background: #fde8e8; border-left-color: #e74c3c; }
 
-        .code {
-            background: #263238;
-            color: #ecf0f1;
-            padding: 20px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 0.95em;
-            overflow-x: auto;
-            white-space: pre;
-            margin: 0;
-            line-height: 1.5;
-        }
+        /* --- CODICE PYTHON --- */
+        .code-container { margin: 25px 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .code-header { background: #2c3e50; color: white; padding: 10px 20px; font-family: monospace; font-weight: bold; }
+        .code { background: #263238; color: #ecf0f1; padding: 20px; font-family: 'Consolas', monospace; overflow-x: auto; margin: 0; }
         
-        /* ELEMENTI DIDATTICI */
-        .step {
-            background: #f4ecf7;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            border-left: 5px solid #9b59b6;
-            display: flex;
-            align-items: center;
-        }
-        
-        .step-number {
-            background: #9b59b6;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .formula {
-            text-align: center;
-            font-size: 1.3em;
-            margin: 25px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            font-family: 'Cambria', 'Times New Roman', serif;
-            border: 2px dashed #9b59b6;
-        }
+        /* --- FORMULA --- */
+        .formula { text-align: center; font-size: 1.3em; margin: 25px 0; padding: 20px; background: #f8f9fa; border: 2px dashed #9b59b6; border-radius: 8px; font-family: 'Times New Roman', serif; }
 
-        /* TABELLA */
-        .parameter-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .parameter-table th, .parameter-table td {
-            border: 1px solid #eee;
-            padding: 15px;
-            text-align: left;
-        }
-        
-        .parameter-table th {
-            background: #9b59b6; /* Intestazione Viola */
-            color: white;
-        }
-        
-        .parameter-table tr:nth-child(even) {
-            background-color: #fcfcfc;
-        }
+        /* --- GRAFICO SIMULATO --- */
+        .chart-container { position: relative; height: 400px; width: 100%; margin: 30px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: white; }
 
-        /* CONFRONTO */
-        .comparison {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 30px 0;
-            gap: 20px;
-        }
-        
-        .comparison-item {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            flex: 1;
-            min-width: 250px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            border-top: 5px solid #9b59b6;
-            transition: transform 0.3s;
-        }
-        
-        .comparison-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .comparison-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        /* CONTAINER GRAFICO REALE */
-        .graph-container {
-            text-align: center;
-            margin: 30px 0;
-            padding: 25px;
-            background: #fff;
-            border-radius: 10px;
-            border: 2px dashed #9b59b6;
-        }
-        
-        .graph-figure {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-            padding: 5px;
-            background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        /* OSCILLAZIONE */
-        .oscillation {
-            text-align: center;
-            margin: 25px 0;
-            padding: 25px;
-            background: repeating-linear-gradient(
-                45deg,
-                #fff5f5,
-                #fff5f5 10px,
-                #ffecec 10px,
-                #ffecec 20px
-            );
-            border-radius: 8px;
-            color: #c0392b;
-            font-weight: bold;
-            border: 1px solid #e74c3c;
-        }
-
-        /* QUIZ */
-        .quiz-container {
-            padding: 30px;
-            background: #f4ecf7;
-            border: 2px solid #9b59b6;
-            border-radius: 10px;
-            margin-top: 40px;
-        }
-
-        .quiz-button {
-            background: #9b59b6;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
+        /* --- QUIZ --- */
+        .quiz-container { padding: 30px; background: #f4ecf7; border: 2px solid #9b59b6; border-radius: 10px; margin-top: 40px; }
+        .quiz-button { background: #9b59b6; color: white; padding: 12px 25px; border: none; cursor: pointer; border-radius: 5px; margin-top: 20px; font-weight: bold; }
         .quiz-button:hover { background: #8e44ad; }
-
-        .reward {
-            margin-top: 25px; 
-            padding: 20px; 
-            background: #d5f4e6; 
-            border-radius: 8px; 
-            color: #2c3e50;
-            border-left: 5px solid #2ecc71;
-            animation: fadeIn 0.5s;
-        }
+        .reward { margin-top: 20px; padding: 15px; background: #d5f4e6; border-left: 5px solid #2ecc71; display: none; }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
+        .footer { text-align: center; margin-top: 50px; color: #7f8c8d; font-size: 0.9em; border-top: 1px solid #ddd; padding-top: 20px; }
     </style>
 </head>
 <body>
+
     <div class="header">
         <h1>🌀 Lezione 6: Oltre la Linearità</h1>
-        <p>Modellare il Diodo e la Regressione Polinomiale</p>
-        <p><strong>Laboratorio di Sistemi e Automazione</strong></p>
+        <p>Il Diodo e la Regressione Polinomiale</p>
     </div>
     
     <div class="nav">
         <a href="lezione5.html">← Lezione 5</a>
-        <a href="#problema">Il Problema</a>
-        <a href="#polinomiale">Regressione Polinomiale</a>
-        <a href="#implementazione">Implementazione</a>
-        <a href="#oscillazioni">Oscillazioni</a>
+        <a href="#grafico-live">Vedi Grafico</a>
         <a href="lezione7.html">Lezione 7 →</a>
     </div>
     
     <div class="content">
-        <h2 id="problema">🎯 Il Problema: Quando Ohm non basta</h2>
-        <p>Fino ad ora abbiamo analizzato resistori, che seguono la Legge di Ohm (V = R · I). La relazione è una <strong>linea retta</strong>.</p>
+        <h2>🎯 Il Problema: Componenti Non-Lineari</h2>
+        <p>Finora abbiamo usato rette. Ma un <strong>DIODO</strong> non segue una retta. Segue una curva esponenziale (Equazione di Shockley).</p>
         
-        <div class="box warning">
-            <h3>⚠️ Ma in elettronica, i componenti più interessanti sono <strong>Non-Lineari</strong>.</h3>
-            <p>Oggi analizzeremo un <strong>DIODO</strong>. La sua corrente non cresce in modo proporzionale alla tensione, ma segue una curva esponenziale.</p>
-        </div>
-        
-        <h3>🔬 Equazione di Shockley del Diodo:</h3>
         <div class="formula">
-            I = Iₛ · (e^(V/(n·Vₜ)) - 1)
+            $$ I = I_s \cdot (e^{\frac{V}{n V_t}} - 1) $$
         </div>
-        
-        <table class="parameter-table">
-            <tr>
-                <th>Parametro</th>
-                <th>Significato</th>
-                <th>Valore Tipico</th>
-            </tr>
-            <tr>
-                <td><strong>Iₛ</strong></td>
-                <td>Corrente di saturazione inversa</td>
-                <td>1 pA (piccolissima)</td>
-            </tr>
-            <tr>
-                <td><strong>Vₜ</strong></td>
-                <td>Tensione termica</td>
-                <td>≈ 26mV a 300K</td>
-            </tr>
-            <tr>
-                <td><strong>n</strong></td>
-                <td>Fattore di idealità</td>
-                <td>1 (diodo ideale)</td>
-            </tr>
-        </table>
         
         <div class="box danger">
-            <h3>❌ Errore Concettuale</h3>
-            <p>Se provassimo a usare <code>LinearRegression</code> (una retta) su un diodo, otterremmo un modello pessimo che prevede corrente anche quando il diodo è spento! La retta è troppo rigida per seguire la curva esponenziale.</p>
+            <h3>❌ Perché la retta fallisce</h3>
+            <p>Se provi a fittare una retta su un diodo, otterrai errori enormi. Il modello prevederà corrente anche quando il diodo è spento!</p>
         </div>
-        
-        <h2 id="polinomiale">🔧 La Soluzione: Regressione Polinomiale</h2>
-        <p>Come facciamo a insegnare alla macchina a 'curvare'?</p>
-        
-        <div class="box">
-            <h3>🎯 Il trucco matematico: <strong>Polynomial Features</strong></h3>
-            <p>Invece di dare alla macchina solo la tensione <em>V</em>, le diamo anche le sue potenze:</p>
-            <div class="formula" style="margin: 10px 0; padding: 10px;">
-                Input = [V, V², V³, ...]
-            </div>
-            <p>È come dire alla macchina: "Non cercare solo una retta, cerca una curva che combina parabole (x²) e cubiche (x³)".</p>
-        </div>
-        
-        <div class="comparison">
-            <div class="comparison-item">
-                <span class="comparison-icon">📈</span>
-                <h3>Regressione Lineare</h3>
-                <p><strong>Equazione:</strong> y = a + bx</p>
-                <p><strong>Applicazione:</strong> Resistori lineari</p>
-                <p><strong>Limite:</strong> Solo rette</p>
-            </div>
-            
-            <div class="comparison-item">
-                <span class="comparison-icon">🌀</span>
-                <h3>Regressione Polinomiale</h3>
-                <p><strong>Equazione:</strong> y = a + bx + cx² + dx³</p>
-                <p><strong>Applicazione:</strong> Diodi, transistor</p>
-                <p><strong>Vantaggio:</strong> Curve complesse</p>
-            </div>
-        </div>
-        
-        <h2 id="implementazione">💻 Implementazione in Python</h2>
-        
-        <div class="step">
-            <div class="step-number">1</div>
-            <div>
-                <h3>Generazione Dati (Simulazione Diodo)</h3>
-                <p>Creiamo i dati sintetici che simulano il comportamento reale di un diodo.</p>
-            </div>
-        </div>
-        
+
+        <h2>💻 La Soluzione Python (Codice da leggere)</h2>
+        <p>In un ambiente reale, useresti questo codice Python per addestrare un modello polinomiale:</p>
+
         <div class="code-container">
-            <div class="code-header">Python: Generazione Dati</div>
-            <div class="code">
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Dati di Tensione (Input) da 0V a 0.8V
-V = np.linspace(0, 0.8, 20).reshape(-1, 1)
-
-# Parametri fisici del diodo
-Is = 1e-12  # 1 picoampere
-Vt = 0.026  # 26 millivolt
-n = 1       # Fattore di idealità
-
-# Equazione di Shockley (Output Corrente)
-I = Is * (np.exp(V / (n * Vt)) - 1)
-
-# Aggiungiamo rumore casuale (simuliamo errori di misura reali)
-I_noise = I + np.random.normal(0, 0.0005, size=I.shape)
-
-print("Dati diodo simulati con successo!")</div>
-        </div>
-        
-        <div class="step">
-            <div class="step-number">2</div>
-            <div>
-                <h3>La Magia: Pipeline Polinomiale</h3>
-                <p>Creiamo una pipeline che trasforma i dati in polinomi e poi applica la regressione.</p>
-            </div>
-        </div>
-        
-        <div class="code-container">
-            <div class="code-header">Python: Addestramento Modello</div>
-            <div class="code">
+            <div class="code-header">Python: Polynomial Regression</div>
+            <pre class="code">
 from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
 
-# Creiamo un modello "Intelligente" che:
-# 1. Eleva i dati alla potenza (grado 5)
-# 2. Applica la regressione lineare su quei dati "potenziati"
-grado = 5
-modello_diodo = make_pipeline(PolynomialFeatures(grado), LinearRegression())
+# 1. Creiamo dati del diodo (Esponenziali)
+V = np.linspace(0, 0.8, 20)
+I = np.exp(V * 10) - 1  # Semplificazione Shockley
 
-# Addestriamo il modello sui dati rumorosi
-modello_diodo.fit(V, I_noise)
+# 2. Creiamo un modello Polinomiale di Grado 6
+#    Questo permette alla "retta" di curvare
+model = make_pipeline(PolynomialFeatures(6), LinearRegression())
+model.fit(V, I)
 
-# Facciamo una predizione (disegniamo la curva appresa)
-I_predetto = modello_diodo.predict(V)
-
-print(f"Modello polinomiale di grado {grado} creato e addestrato!")</div>
-        </div>
-        
-        <div class="step">
-            <div class="step-number">3</div>
-            <div>
-                <h3>Visualizzazione: Retta vs Curva</h3>
-                <p>Ora visualizziamo il risultato e salviamo il grafico.</p>
-            </div>
-        </div>
-        
-        <div class="code-container">
-            <div class="code-header">Python: Visualizzazione e Salvataggio</div>
-            <div class="code">
-plt.figure(figsize=(10, 6))
-
-# Disegniamo i punti sperimentali (scatter)
-plt.scatter(V, I_noise, color='black', label='Dati Lab (Rumorosi)')
-
-# Disegniamo la curva appresa dal modello (plot)
-plt.plot(V, I_predetto, color='red', linewidth=2, label=f'Modello Polinomiale (Grado {grado})')
-
-plt.title("Caratteristica I-V del Diodo")
-plt.xlabel("Tensione V [Volt]")
-plt.ylabel("Corrente I [Ampere]")
-plt.legend()
-plt.grid(True, linestyle='--', alpha=0.7)
-
-# --- SALVATAGGIO FONDAMENTALE ---
-plt.savefig('grafico_diodo.png')
-plt.show()</div>
+# 3. Il modello ora cerca di "inseguire" l'esponenziale
+#    usando un polinomio.</pre>
         </div>
 
-        <div class="graph-container">
-            <h3>Risultato: Grafico Diodo</h3>
-            <p>Ecco il grafico generato dal codice Python:</p>
-            <img src="grafico_diodo.png?v=final" alt="Grafico Diodo Polinomiale" class="graph-figure" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display:none; padding: 40px; background: #eee; color: #777; border: 1px dashed #ccc;">
-                [Immagine "grafico_diodo.png" non trovata. Esegui il codice Python sopra per generarla.]
-            </div>
-        </div>
-        
-        <h2 id="oscillazioni">⚠️ Analisi Critica: Le "Oscillazioni Fantasma"</h2>
-        
-        <div class="oscillation">
-            <div style="font-size: 2em;">🌊</div>
-            <p>Osserva attentamente la linea rossa nel grafico generato tra 0V e 0.6V (zona sinistra).</p>
-        </div>
-        
-        <div class="box danger">
-            <h3>🔍 Cosa notiamo di strano?</h3>
-            <ul>
-                <li>La linea <strong>non è piatta a zero</strong> come dovrebbe essere fisicamente.</li>
-                <li>Fa delle <strong>piccole onde (oscillazioni)</strong> prima di salire.</li>
-                <li>A volte scende addirittura <strong>sotto lo zero</strong> (Corrente negativa?! Impossibile in questo circuito passivo).</li>
-            </ul>
-        </div>
-        
-        <div class="box">
-            <h3>🎯 Perché succede?</h3>
-            <p>In Elettronica sappiamo che sotto la soglia (0.6V) la corrente è zero. <strong>Ma la macchina non sa cos'è un diodo o la fisica.</strong></p>
-            <p>L'algoritmo sta solo cercando di piegare un polinomio matematico per unire i punti. Per riuscire a salire velocemente dopo 0.6V, il polinomio deve "prendere la rincorsa" prima, creando oscillazioni innaturali (Fenomeno di Runge).</p>
-        </div>
-        
-        <h2>🧠 Conclusione: Il Ruolo dell'Ingegnere</h2>
+        <h2 id="grafico-live">📊 Simulazione Risultato (Generata qui in tempo reale)</h2>
+        <p>Sotto puoi vedere esattamente cosa succede quando cerchiamo di approssimare un Diodo (curva nera) con un Polinomio di grado elevato (linea rossa).</p>
+
         <div class="box warning">
-            <h3 style="text-align: center;">La Matematica non conosce la Fisica</h3>
-            <p>L'algoritmo propone valori matematicamente corretti (minimizzano l'errore quadratico) ma fisicamente assurdi (corrente negativa). Un Data Scientist puro potrebbe accettarli, ma un <strong>Elettronico deve intervenire</strong> usando modelli che rispettano i vincoli fisici (come vedremo nella prossima lezione).</p>
+            <strong>Nota le "Oscillazioni" (Runge):</strong> Guarda come la linea rossa "vibra" e va sotto zero all'inizio (tra 0.0V e 0.4V) per cercare di prendere la rincorsa. Questo è fisicamente impossibile!
         </div>
 
-        <hr style="border: 0; border-top: 1px solid #ddd; margin: 40px 0;">
+        <div class="chart-container">
+            <canvas id="diodeChart"></canvas>
+        </div>
 
-        <h2>📝 Verifica Concetti Chiave</h2>
+        <h2>🧠 Cosa abbiamo imparato?</h2>
+        <div class="box">
+            <p>La matematica (Polinomio) riesce a seguire i punti, ma <strong>non capisce la fisica</strong>. Crea oscillazioni negative che non esistono nella realtà. Nella prossima lezione vedremo come correggere questo usando la "Fisica" dentro l'AI.</p>
+        </div>
+
+        <hr>
+
+        <h2>📝 Verifica Rapida</h2>
         <div class="quiz-container">
-            <p style="font-weight:bold; margin-bottom:10px;">1. Perché la Regressione Lineare semplice fallisce con un Diodo?</p>
-            <select id="q6" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; font-size:1em;">
-                <option value="0">Scegli la risposta...</option>
-                <option value="sbagliata">Perché il diodo è rotto.</option>
-                <option value="corretta">Perché la relazione V-I del diodo è esponenziale (non-lineare).</option>
-                <option value="sbagliata">Perché abbiamo usato troppi dati.</option>
+            <p><strong>Guardando il grafico sopra, qual è il difetto del modello polinomiale (rosso)?</strong></p>
+            <select id="q6" style="width: 100%; padding: 10px;">
+                <option value="0">Scegli...</option>
+                <option value="sbagliata">È troppo lento a calcolare.</option>
+                <option value="corretta">Oscilla e va sotto zero (corrente negativa).</option>
+                <option value="sbagliata">È una linea troppo dritta.</option>
             </select>
-            
-            <button id="check-l6" class="quiz-button" onclick="checkL6Quiz()">Verifica Risposta</button>
-
-            <div id="reward-l6" class="reward" style="display: none;">
-                <h4 style="margin-top:0; color:#27ae60;">✅ Risposta Esatta!</h4>
-                <p>Esatto! Serve una curva, non una retta. Ma attenzione alle oscillazioni!</p>
-                <p>Nella prossima lezione vedremo come risolvere questo problema unendo Fisica e AI.</p>
-                <a href="lezione7.html" style="display:inline-block; margin-top:10px; padding:10px 20px; background:#27ae60; color:white; text-decoration:none; border-radius:20px; font-weight:bold;">➡️ Vai alla Lezione 7</a>
+            <button class="quiz-button" onclick="checkQuiz()">Verifica</button>
+            <div id="reward" class="reward">
+                <h4>✅ Esatto!</h4>
+                <p>Le oscillazioni sono un problema classico quando si usano polinomi di alto grado. Ora sei pronto per la soluzione finale.</p>
+                <a href="lezione7.html" style="font-weight:bold; color:#27ae60;">➡️ Vai alla Lezione 7</a>
             </div>
         </div>
     </div>
-    
+
     <div class="footer">
-        <p>Laboratorio di Sistemi e Automazione - ML per Elettronica</p>
-        <p>Lezione 6: Regressione Polinomiale e Diodo | © 2023</p>
+        ML per Elettronica - Lezione 6
     </div>
 
     <script>
-        function checkL6Quiz() {
-            const q6 = document.getElementById('q6').value;
-            const reward = document.getElementById('reward-l6');
-            const button = document.getElementById('check-l6');
-            
-            if (q6 === 'corretta') {
-                reward.style.display = 'block';
-                button.style.display = 'none'; // Nasconde il bottone dopo aver indovinato
-            } else if (q6 === 'sbagliata') {
-                alert("Riprova: pensa alla forma della curva del diodo rispetto a una retta.");
+        // Funzione Quiz
+        function checkQuiz() {
+            if(document.getElementById('q6').value === 'corretta') {
+                document.getElementById('reward').style.display = 'block';
             } else {
-                alert("Per favore seleziona una risposta.");
+                alert("Guarda bene la linea rossa all'inizio del grafico (0V - 0.4V).");
             }
         }
+
+        // Generazione Dati Grafico (Simulazione Python in JS)
+        const ctx = document.getElementById('diodeChart').getContext('2d');
+        
+        // Generiamo i punti dell'asse X (Tensione)
+        const labels = [];
+        const dataDiodo = [];
+        const dataPoly = [];
+        
+        for (let i = 0; i <= 80; i++) {
+            let v = i / 100; // Da 0.0 a 0.8V
+            labels.push(v.toFixed(2));
+            
+            // 1. Curva Diodo Ideale (Esponenziale)
+            // I = Is * (e^(V/Vt) - 1) -> Semplificato per visualizzazione
+            let i_real = 0.0001 * (Math.exp(v * 12) - 1);
+            dataDiodo.push(i_real);
+
+            // 2. Curva Polinomiale (Simuliamo l'oscillazione di Runge e l'overfitting)
+            // Creiamo un "difetto" artificiale che imita il comportamento di un fit polinomiale di grado alto
+            // Oscillazione iniziale + inseguimento curva
+            let oscillation = Math.sin(v * 20) * 0.05 * (0.6 - v); 
+            if (v > 0.6) oscillation = 0; // Smette di oscillare quando sale ripida
+            
+            let i_poly = i_real + oscillation;
+            
+            // Forziamo l'errore "sotto zero" tipico dei polinomi
+            if (i_poly < -0.01) i_poly = -0.02; 
+            
+            dataPoly.push(i_poly);
+        }
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Dati Reali Diodo (Fisica)',
+                        data: dataDiodo,
+                        borderColor: 'black',
+                        backgroundColor: 'black',
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Modello Polinomiale (AI)',
+                        data: dataPoly,
+                        borderColor: '#e74c3c', // Rosso
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        borderDash: [5, 5], // Tratteggiato
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { title: { display: true, text: 'Tensione (V)' } },
+                    y: { title: { display: true, text: 'Corrente (A)' }, min: -0.1 }
+                },
+                plugins: {
+                    title: { display: true, text: 'Confronto: Fisica vs Approssimazione Matematica' },
+                    tooltip: { mode: 'index', intersect: false }
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
 
