@@ -139,7 +139,9 @@
                         <li><span class="arrow">↳</span> <a href="lezione2.html">Lezione 2: Regressione</a></li>
                         <li><span class="arrow">↳</span> <a href="lezione3.html">Lezione 3: Grafici</a></li>
                         <li><span class="arrow">↳</span> <a href="lezione4.html">Lezione 4: Errori</a></li>
+                        <li><span class="arrow">↳</span> <a href="lezione5.html">Lezione 5: Software</a></li>
                         <li><span class="arrow">↳</span> <a href="lezione6.html">Lezione 6: Diodo</a></li>
+                        <li><span class="arrow">↳</span> <a href="lezione7.html">Lezione 7: Hybrid</a></li>
                         <li><span class="arrow">↳</span> <a href="lezione8.html">Lezione 8: Finale</a></li>
                     </ul>
                 </li>
@@ -182,7 +184,7 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <span class="folder-icon">📁</span> Lezione_03
                     <ul>
@@ -196,8 +198,42 @@
                             <img src="grafico_misure.png" class="img-preview" alt="Scatter">
                         </li>
                         <li>
+                            <span class="icon">🖼️</span> <span class="filename">grafico_VI.png</span>
+                            <img src="grafico_VI.png" class="img-preview" alt="Retta">
+                        </li>
+                        <li>
                             <span class="icon">📕</span> <a href="Python_3.pdf" class="filename">Python_3.pdf</a>
                             <a href="Python_3.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <span class="folder-icon">📁</span> Lezione_04
+                    <ul>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione4.html" class="filename">lezione4.html</a>
+                            <a href="lezione4.html" class="badge btn-view">👁️ Output</a>
+                            <button onclick="mostraSorgente('lezione4.html')" class="badge btn-source">&lt;/&gt; Vedi Codice</button>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_4.pdf" class="filename">Python_4.pdf</a>
+                            <a href="Python_4.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <span class="folder-icon">📁</span> Lezione_05
+                    <ul>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione5.html" class="filename">lezione5.html</a>
+                            <a href="lezione5.html" class="badge btn-view">👁️ Output</a>
+                            <button onclick="mostraSorgente('lezione5.html')" class="badge btn-source">&lt;/&gt; Vedi Codice</button>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_5.pdf" class="filename">Python_5.pdf</a>
+                            <a href="Python_5.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
                         </li>
                     </ul>
                 </li>
@@ -220,6 +256,41 @@
                         </li>
                     </ul>
                 </li>
+
+                <li>
+                    <span class="folder-icon">📁</span> Lezione_07
+                    <ul>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione7.html" class="filename">lezione7.html</a>
+                            <a href="lezione7.html" class="badge btn-view">👁️ Output</a>
+                            <button onclick="mostraSorgente('lezione7.html')" class="badge btn-source">&lt;/&gt; Vedi Codice</button>
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_7.pdf" class="filename">Python_7.pdf</a>
+                            <a href="Python_7.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <span class="folder-icon">📁</span> Lezione_08 (Finale)
+                    <ul>
+                        <li>
+                            <span class="icon">📄</span> <a href="lezione8.html" class="filename">lezione8.html</a>
+                            <a href="lezione8.html" class="badge btn-view">👁️ Output</a>
+                            <button onclick="mostraSorgente('lezione8.html')" class="badge btn-source">&lt;/&gt; Vedi Codice</button>
+                        </li>
+                        <li>
+                            <span class="icon">🖼️</span> <span class="filename">punto_lavoro.png</span>
+                            <img src="punto_lavoro.png" class="img-preview" alt="Punto Lavoro">
+                        </li>
+                        <li>
+                            <span class="icon">📕</span> <a href="Python_8.pdf" class="filename">Python_8.pdf</a>
+                            <a href="Python_8.pdf" class="badge btn-pdf">⬇️ Apri PDF</a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </li>
     </ul>
@@ -228,7 +299,6 @@
 
     <script>
         function mostraSorgente(url) {
-            // Tentativo di fetch del file
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
@@ -237,10 +307,7 @@
                     return response.text();
                 })
                 .then(text => {
-                    // Crea una nuova finestra
                     let win = window.open("", "_blank", "width=800,height=600");
-                    
-                    // Scrive dentro la finestra un'area di testo con il codice
                     win.document.write(`
                         <html>
                         <head>
