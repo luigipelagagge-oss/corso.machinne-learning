@@ -2,158 +2,272 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Lezione 6: Regressione Polinomiale - Il Diodo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 7: Modello Ibrido - Fisica + AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        /* --- STILE BASE --- */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; color: #333; }
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary-color: #f1f5f9;
+            --text-color: #334155;
+            --code-bg: #1e293b;
+            --success-color: #22c55e;
+            --accent-color: #8b5cf6; /* Viola per l'ibrido */
+            --warning-bg: #fffbeb;
+            --warning-border: #fcd34d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--text-color); line-height: 1.6; }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+
+        /* NAV */
+        .nav-bar {
+            background: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .nav-bar a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .nav-bar a:hover { background-color: var(--secondary-color); color: var(--primary-color); }
+
+        /* CONTENT */
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
         
-        /* --- HEADER VIOLA --- */
-        .header { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; padding: 40px; border-radius: 15px; text-align: center; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h1 { margin: 0 0 10px 0; font-size: 2.5em; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        h3 { margin-top: 1.5rem; margin-bottom: 0.8rem; font-size: 1.3rem; color: #1e293b; }
+
+        /* BOX VARIANT */
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .box.warning { background-color: var(--warning-bg); border-color: var(--warning-border); }
+        .box.hybrid { 
+            background: linear-gradient(to right, #f0f9ff, #f3e8ff); 
+            border-color: var(--accent-color); 
+        }
+        .box.success { background-color: #f0fdf4; border-color: var(--success-color); }
+
+        /* CODE */
+        .code-container {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        .code-header {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-family: monospace;
+            display: flex; justify-content: space-between;
+        }
+        pre { margin: 0; padding: 1.5rem; overflow-x: auto; color: #e2e8f0; font-family: 'Consolas', monospace; }
+        .keyword { color: #c084fc; } 
+        .func { color: #38bdf8; } 
+        .string { color: #86efac; } 
+        .comment { color: #64748b; font-style: italic; }
+
+        /* DIAGRAM PLACEHOLDERS */
+        .diagram-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center; margin-top: 4rem; padding: 2rem; color: #64748b; font-size: 0.9rem; border-top: 1px solid #e2e8f0;
+        }
         
-        /* --- NAVIGAZIONE --- */
-        .nav { background: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
-        .nav a { display: inline-block; margin: 0 10px; padding: 12px 25px; background: #9b59b6; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; transition: all 0.3s; }
-        .nav a:hover { background: #8e44ad; transform: translateY(-3px); }
-        
-        /* --- CONTENUTO --- */
-        .content { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); margin-bottom: 30px; }
-        h2 { color: #2c3e50; border-bottom: 3px solid #9b59b6; padding-bottom: 10px; margin-top: 40px; }
-        h3 { color: #8e44ad; margin-top: 25px; }
-
-        /* --- BOX --- */
-        .box { background: #f4ecf7; padding: 25px; margin: 25px 0; border-left: 5px solid #9b59b6; border-radius: 8px; }
-        .box.warning { background: #fff8e1; border-left-color: #ffb300; }
-        .box.danger { background: #fde8e8; border-left-color: #e74c3c; }
-
-        /* --- FORMULA CORRETTA (HTML PURO) --- */
-        .formula { text-align: center; font-size: 1.4em; margin: 25px 0; padding: 20px; background: #f8f9fa; border: 2px dashed #9b59b6; border-radius: 8px; font-family: 'Times New Roman', serif; }
-
-        /* --- CODICE PYTHON --- */
-        .code-container { margin: 25px 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .code-header { background: #2c3e50; color: white; padding: 10px 20px; font-family: monospace; font-weight: bold; }
-        .code { background: #263238; color: #ecf0f1; padding: 20px; font-family: 'Consolas', monospace; overflow-x: auto; margin: 0; white-space: pre; }
-
-        /* --- IMMAGINE --- */
-        .graph-container { text-align: center; margin: 30px 0; padding: 20px; border: 1px solid #ddd; background: white; border-radius: 8px; }
-        .graph-figure { max-width: 100%; height: auto; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-
-        /* --- QUIZ --- */
-        .quiz-container { padding: 30px; background: #f4ecf7; border: 2px solid #9b59b6; border-radius: 10px; margin-top: 40px; }
-        .quiz-button { background: #9b59b6; color: white; padding: 12px 25px; border: none; cursor: pointer; border-radius: 5px; margin-top: 20px; font-weight: bold; transition: background 0.3s; }
-        .quiz-button:hover { background: #8e44ad; }
-        .reward { margin-top: 20px; padding: 15px; background: #d5f4e6; border-radius: 5px; color: #2c3e50; display: none; }
-        
-        .footer { text-align: center; margin-top: 50px; color: #7f8c8d; font-size: 0.9em; border-top: 1px solid #ddd; padding-top: 20px; }
+        .btn-next {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        .btn-next:hover { background-color: var(--primary-dark); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>🌀 Lezione 6: Oltre la Linearità</h1>
-        <p>Il Diodo e la Regressione Polinomiale</p>
+    <header>
+        <h1>🔧 Lezione 7: Il Modello Ibrido</h1>
+        <p>Unire Fisica e Intelligenza Artificiale (PIML)</p>
+    </header>
+
+    <div class="nav-bar">
+        <a href="lezione6.html">← Lezione 6</a>
+        <a href="#concept">Il Concetto</a>
+        <a href="#logic">La Logica</a>
+        <a href="#code">Codice Python</a>
+        <a href="#results">Risultati</a>
+        <a href="lezione8.html">Lezione 8 →</a>
     </div>
-    
-    <div class="nav">
-        <a href="lezione5.html">← Lezione 5</a>
-        <a href="#grafico">Vedi Grafico Python</a>
-        <a href="lezione7.html">Lezione 7 →</a>
-    </div>
-    
-    <div class="content">
-        <h2>🎯 Il Problema: Componenti Non-Lineari</h2>
-        <p>Fino ad ora abbiamo usato rette (Legge di Ohm). Ma un <strong>DIODO</strong> segue una curva esponenziale, descritta dall'equazione di Shockley:</p>
-        
-        <div class="formula">
-            I = I<sub>s</sub> · (e<sup>V / (n · V<sub>t</sub>)</sup> - 1)
-        </div>
-        
-        <div class="box danger">
-            <h3>❌ Perché la retta fallisce</h3>
-            <p>Una retta è rigida. Se proviamo ad usarla su un diodo, il modello prevederà corrente anche quando il diodo è spento, o sottostimerà la crescita esponenziale.</p>
-        </div>
 
-        <h2>💻 La Soluzione: Regressione Polinomiale</h2>
-        <p>Per "piegare" la retta, usiamo un trucco matematico: eleviamo i dati a potenza (V², V³, V⁵...) prima di darli in pasto all'algoritmo.</p>
+    <div class="container">
 
-        <div class="code-container">
-            <div class="code-header">Python: Generazione Modello</div>
-            <div class="code">
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from sklearn.pipeline import make_pipeline
-
-# 1. Pipeline: Trasforma i dati -> Applica Regressione
-# Usiamo un grado 6 per tentare di seguire la curva ripida
-grado = 6
-modello = make_pipeline(PolynomialFeatures(grado), LinearRegression())
-
-# 2. Addestramento
-modello.fit(V, I_misurata)
-
-# 3. Predizione e Grafico
-I_pred = modello.predict(V_test)
-plt.plot(V_test, I_pred, color='red')
-plt.savefig('grafico_diodo.png')
-            </div>
-        </div>
-
-        <h2 id="grafico">📊 Risultato (Dal tuo Python)</h2>
-        <p>Ecco il grafico generato dal tuo script. La linea rossa è il tentativo dell'AI di imparare il comportamento del diodo.</p>
-
-        <div class="graph-container">
-            <img src="grafico_diodo.png" alt="Grafico Diodo" class="graph-figure" onerror="this.style.display='none'; document.getElementById('error-msg').style.display='block';">
+        <div class="card" id="concept">
+            <h2>🎯 L'Ingresso dell'Umano</h2>
             
-            <div id="error-msg" style="display:none; color: #c0392b; font-weight: bold; padding: 20px;">
-                ⚠️ Immagine 'grafico_diodo.png' non trovata.<br>
-                Assicurati di aver eseguito lo script Python nella stessa cartella di questo file HTML.
+            <div class="box warning">
+                <strong>⚠️ Recap Lezione 6:</strong><br>
+                Abbiamo visto che la Regressione Polinomiale pura è "stupida". Non conoscendo la fisica, crea oscillazioni (Fenomeno di Runge) e predice correnti negative impossibili.
             </div>
-        </div>
 
-        <div class="box warning">
-            <h3>⚠️ Analisi Critica: Le Oscillazioni</h3>
-            <p>Guarda attentamente la linea rossa tra <strong>0V e 0.4V</strong>.</p>
-            <p>Noti che "vibra" o scende leggermente sotto lo zero? Si chiama <em>Fenomeno di Runge</em>.</p>
-            <p>La matematica pura (il polinomio) sta cercando di prendere la rincorsa per salire velocemente dopo, ma così facendo crea valori fisicamente assurdi (corrente negativa).</p>
-        </div>
+            <p>Oggi introduciamo il <strong>Physics-Informed Machine Learning (PIML)</strong>. L'idea è semplice: usiamo l'AI per modellare la complessità dei dati, ma usiamo regole fisiche rigide ("Hard Rules") dove sappiamo che l'AI sbaglia.</p>
 
-        <hr>
-
-        <h2>📝 Verifica Rapida</h2>
-        <div class="quiz-container">
-            <p><strong>Qual è il difetto principale mostrato nel grafico sopra?</strong></p>
-            <select id="q6" style="width: 100%; padding: 10px; border-radius: 5px;">
-                <option value="0">Scegli la risposta...</option>
-                <option value="sbagliata">La linea rossa è troppo dritta.</option>
-                <option value="corretta">La linea rossa oscilla dove dovrebbe essere zero.</option>
-                <option value="sbagliata">I puntini neri sono troppo grandi.</option>
-            </select>
             
-            <button class="quiz-button" onclick="checkQuiz()">Verifica Risposta</button>
-
-            <div id="reward" class="reward">
-                <h4>✅ Esatto!</h4>
-                <p>Hai individuato il problema! Il modello matematico non conosce la fisica e crea oscillazioni impossibili.</p>
-                <p><a href="lezione7.html" style="color: #27ae60; font-weight: bold;">➡️ Vai alla Lezione 7: La Soluzione Ibrida</a></p>
+            
+            <div class="box hybrid">
+                <h3>🤝 Il meglio dei due mondi</h3>
+                <ul>
+                    <li><strong>AI (Machine Learning):</strong> Gestisce la curva esponenziale complessa quando il diodo è acceso.</li>
+                    <li><strong>Fisica (Regole):</strong> Impone corrente zero quando la tensione è sotto la soglia (0.6V).</li>
+                </ul>
             </div>
         </div>
+
+        <div class="card" id="logic">
+            <h2>🔌 La Logica del Filtro</h2>
+            <p>Non stiamo creando un nuovo algoritmo matematico complesso. Stiamo creando un <strong>sistema a stadi</strong>. Il modello AI fa una previsione, ma prima di accettarla, questa passa attraverso un "filtro logico" basato sulla conoscenza umana.</p>
+
+            
+
+            <p>Matematicamente, definiamo una funzione definita a tratti:</p>
+            <div style="font-size: 1.3rem; text-align: center; margin: 25px 0;">
+                $$ I_{ibrido} = \begin{cases} 
+                0 & \text{se } V < 0.6V \text{ (Fisica)} \\
+                \text{Polinomio}(V) & \text{se } V \geq 0.6V \text{ (AI)}
+                \end{cases} $$
+            </div>
+        </div>
+
+        <div class="card" id="code">
+            <h2>💻 Implementazione in Python</h2>
+            <p>Per implementare questa logica condizionale in modo efficiente su migliaia di dati contemporaneamente, usiamo la potente funzione <code>np.where</code> di NumPy.</p>
+
+            <div class="code-container">
+                <div class="code-header"><span>hybrid_model.py</span><span>Python</span></div>
+                <pre>
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># 1. Generiamo previsioni "grezze" dal modello polinomiale (Lez 6)</span>
+I_grezza = modello_diodo.predict(V_test)
+
+<span class="comment"># 2. Definiamo la conoscenza fisica (Soglia)</span>
+SOGLIA_DIODO = <span class="keyword">0.6</span>  <span class="comment"># Volt</span>
+
+<span class="comment"># 3. APPLICAZIONE FILTRO IBRIDO</span>
+<span class="comment"># Sintassi: np.where(condizione, valore_se_vero, valore_se_falso)</span>
+I_finale = np.where(V_test < SOGLIA_DIODO, <span class="keyword">0</span>, I_grezza)
+
+<span class="comment"># 4. Sicurezza extra: mai corrente negativa</span>
+I_finale = np.maximum(I_finale, <span class="keyword">0</span>)</pre>
+            </div>
+
+            <div class="box success">
+                <strong>💡 Nota Tecnica:</strong><br>
+                <code>np.where</code> è vettoriale: opera su tutto l'array in un colpo solo, senza bisogno di cicli <code>for</code> lenti.
+            </div>
+        </div>
+
+        <div class="card" id="results">
+            <h2>📊 Il Risultato Finale</h2>
+            <p>Confrontiamo visivamente cosa succede applicando il filtro fisico. A sinistra il modello puramente matematico (instabile), a destra il modello ibrido.</p>
+
+            
+
+            <div class="comparison-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div style="padding: 15px; background: #fee2e2; border-radius: 8px; border: 1px solid #fca5a5;">
+                    <h4 style="color: #991b1b; margin-bottom: 10px;">❌ Modello Puro</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Oscilla vicino allo zero.</li>
+                        <li>Prevede correnti negative.</li>
+                        <li>Overfitting sul rumore.</li>
+                    </ul>
+                </div>
+                <div style="padding: 15px; background: #dcfce7; border-radius: 8px; border: 1px solid #86efac;">
+                    <h4 style="color: #166534; margin-bottom: 10px;">✅ Modello Ibrido</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Perfettamente piatto a zero (come la realtà).</li>
+                        <li>Curva pulita sopra 0.6V.</li>
+                        <li>Fisicamente robusto.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="text-align: center; border-color: var(--warning-border); background: var(--warning-bg);">
+            <h3>🚀 Sfida Finale: Verso il Circuito</h3>
+            <p>Ora abbiamo un modello perfetto del componente <strong>Diodo</strong>. Ma in elettronica i componenti lavorano in gruppo.</p>
+            <p>Nella prossima lezione collegheremo questo modello AI a una resistenza per risolvere un circuito completo.</p>
+            
+            <div style="margin: 20px auto; max-width: 300px;">
+                
+            </div>
+
+            <a href="lezione8.html" class="btn-next">Vai alla Lezione 8: Il Circuito Completo →</a>
+        </div>
+
     </div>
 
-    <div class="footer">
-        Laboratorio di Sistemi e Automazione - Lezione 6
-    </div>
+    <footer>
+        <p>Laboratorio di Sistemi e Automazione - ML per Elettronica</p>
+        <p>Lezione 7: Physics-Informed Machine Learning</p>
+    </footer>
 
-    <script>
-        function checkQuiz() {
-            var val = document.getElementById('q6').value;
-            var reward = document.getElementById('reward');
-            if (val === 'corretta') {
-                reward.style.display = 'block';
-            } else if (val === 'sbagliata') {
-                alert("Osserva bene la parte sinistra del grafico (basse tensioni).");
-            }
-        }
-    </script>
 </body>
 </html>
 
