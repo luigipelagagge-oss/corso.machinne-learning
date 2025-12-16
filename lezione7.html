@@ -2,516 +2,271 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lezione 7: Modello Ibrido - Fisica + AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary-color: #f1f5f9;
+            --text-color: #334155;
+            --code-bg: #1e293b;
+            --success-color: #22c55e;
+            --accent-color: #8b5cf6; /* Viola per l'ibrido */
+            --warning-bg: #fffbeb;
+            --warning-border: #fcd34d;
         }
-        
-        .header {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--text-color); line-height: 1.6; }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 3rem 1rem;
             text-align: center;
-            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
-        h1 {
-            color: white;
-            margin-bottom: 10px;
-        }
-        
-        .nav {
+        header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+
+        /* NAV */
+        .nav-bar {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        
-        .nav a {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
+        .nav-bar a {
             text-decoration: none;
-            border-radius: 5px;
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
         }
+        .nav-bar a:hover { background-color: var(--secondary-color); color: var(--primary-color); }
+
+        /* CONTENT */
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
         
-        .content {
+        .card {
             background: white;
-            padding: 30px;
-            border-radius: 8px;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
         }
-        
+
         h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-top: 30px;
+            color: var(--primary-dark);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
-        
+
+        h3 { margin-top: 1.5rem; margin-bottom: 0.8rem; font-size: 1.3rem; color: #1e293b; }
+
+        /* BOX VARIANT */
         .box {
-            background: #e8f4fc;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 4px solid #3498db;
-            border-radius: 5px;
-        }
-        
-        .box.hybrid {
-            background: linear-gradient(135deg, #e8f4fc, #d4edda);
-            border-left-color: #2ecc71;
-        }
-        
-        .box.warning {
-            background: #fff3cd;
-            border-left-color: #ffc107;
-        }
-        
-        .box.success {
-            background: #d4edda;
-            border-left-color: #28a745;
-        }
-        
-        .code {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
-        .workflow {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 30px 0;
-            background: #f8f9fa;
-            padding: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
             border-radius: 8px;
+            border-left: 4px solid;
         }
-        
-        .workflow-step {
-            text-align: center;
-            padding: 15px;
-            width: 200px;
+        .box.warning { background-color: var(--warning-bg); border-color: var(--warning-border); }
+        .box.hybrid { 
+            background: linear-gradient(to right, #f0f9ff, #f3e8ff); 
+            border-color: var(--accent-color); 
         }
-        
-        .workflow-arrow {
-            font-size: 2em;
-            color: #3498db;
-            font-weight: bold;
-        }
-        
-        .hybrid-visual {
-            text-align: center;
-            margin: 30px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, #e8f4fc 0%, #d4edda 100%);
+        .box.success { background-color: #f0fdf4; border-color: var(--success-color); }
+
+        /* CODE */
+        .code-container {
+            background-color: var(--code-bg);
             border-radius: 8px;
-            border: 3px solid #3498db;
+            overflow: hidden;
+            margin: 1.5rem 0;
         }
-        
-        .filter-logic {
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
+        .code-header {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
             font-family: monospace;
+            display: flex; justify-content: space-between;
+        }
+        pre { margin: 0; padding: 1.5rem; overflow-x: auto; color: #e2e8f0; font-family: 'Consolas', monospace; }
+        .keyword { color: #c084fc; } 
+        .func { color: #38bdf8; } 
+        .string { color: #86efac; } 
+        .comment { color: #64748b; font-style: italic; }
+
+        /* DIAGRAM PLACEHOLDERS */
+        .diagram-container {
+            margin: 2rem 0;
             text-align: center;
         }
-        
-        .comparison {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 30px 0;
+
+        /* FOOTER */
+        footer {
+            text-align: center; margin-top: 4rem; padding: 2rem; color: #64748b; font-size: 0.9rem; border-top: 1px solid #e2e8f0;
         }
         
-        .comparison-item {
-            background: white;
-            padding: 20px;
+        .btn-next {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
             border-radius: 8px;
-            width: 45%;
-            min-width: 300px;
-            margin: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s;
         }
-        
-        .circuit-challenge {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 30px 0;
-            border-left: 4px solid #ffc107;
-            text-align: center;
-        }
-        
-        .terminal {
-            background: #2c3e50;
-            color: #2ecc71;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            margin: 15px 0;
-        }
-        
-        .formula-box {
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 2px dashed #3498db;
-        }
+        .btn-next:hover { background-color: var(--primary-dark); }
     </style>
 </head>
 <body>
-    <div class="header">
+
+    <header>
         <h1>🔧 Lezione 7: Il Modello Ibrido</h1>
-        <p>Unire Fisica e Intelligenza Artificiale</p>
-        <p><strong>Laboratorio di Sistemi e Automazione</strong></p>
-    </div>
-    
-    <div class="nav">
+        <p>Unire Fisica e Intelligenza Artificiale (PIML)</p>
+    </header>
+
+    <div class="nav-bar">
         <a href="lezione6.html">← Lezione 6</a>
-        <a href="#introduzione">Introduzione</a>
-        <a href="#logica">Logica del Filtro</a>
-        <a href="#implementazione">Implementazione</a>
-        <a href="#risultato">Risultato</a>
-        <a href="Python_7.pdf" target="_blank">📄 PDF Originale</a>
+        <a href="#concept">Il Concetto</a>
+        <a href="#logic">La Logica</a>
+        <a href="#code">Codice Python</a>
+        <a href="#results">Risultati</a>
         <a href="lezione8.html">Lezione 8 →</a>
     </div>
-    
-    <div class="content">
-        <h2 id="introduzione">🎯 Introduzione: L'Ingresso dell'Umano</h2>
-        
-        <div class="box warning">
-            <h3>⚠️ Nella Lezione 6 abbiamo visto che:</h3>
-            <p>La Regressione Polinomiale, pur essendo potente, è <strong>'stupida'</strong>: crea oscillazioni e correnti negative dove non dovrebbero esistere.</p>
-        </div>
-        
-        <div class="box hybrid">
-            <h3>🚀 Oggi impareremo il <strong>Physics-Informed Machine Learning</strong>:</h3>
-            <p>L'idea è semplice: <strong>non ci fidiamo ciecamente della macchina</strong>.</p>
-            <p>Usiamo le nostre conoscenze di elettronica (il Diodo non conduce sotto soglia) per <strong>'correggere' le previsioni</strong>.</p>
-        </div>
-        
-        <div class="hybrid-visual">
-            <div style="font-size: 3em;">🤝</div>
-            <h2>FISICA + INTELLIGENZA ARTIFICIALE</h2>
-            <p><strong>Il meglio di due mondi</strong></p>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-                <div style="padding: 10px 20px; background: #3498db; color: white; border-radius: 5px;">
-                    🤖 AI (Flessibilità)
-                </div>
-                <div style="padding: 10px 20px; background: #2ecc71; color: white; border-radius: 5px;">
-                    ⚡ FISICA (Correttezza)
-                </div>
-            </div>
-        </div>
-        
-        <h2 id="logica">🔌 La Logica del Filtro</h2>
-        <p>Creeremo un sistema a due stadi:</p>
-        
-        <div class="workflow">
-            <div class="workflow-step">
-                <div style="font-size: 3em;">📊</div>
-                <h4>Stadio 1: AI</h4>
-                <p>Il modello polinomiale fa la previsione (anche se oscillante)</p>
-            </div>
-            
-            <div class="workflow-arrow">→</div>
-            
-            <div class="workflow-step">
-                <div style="font-size: 3em;">⚡</div>
-                <h4>Stadio 2: Logico</h4>
-                <p>Una regola fisica "Hard" sovrascrive l'AI se necessario</p>
-            </div>
-            
-            <div class="workflow-arrow">→</div>
-            
-            <div class="workflow-step">
-                <div style="font-size: 3em;">✅</div>
-                <h4>Output Finale</h4>
-                <p>Risultato fisicamente corretto</p>
-            </div>
-        </div>
-        
-        <div class="filter-logic">
-            Input Tensione V<br>
-            ↓<br>
-            V &lt; 0.6V ?<br>
-            ↓<br>
-            SÌ: Forza I = 0 &nbsp;&nbsp; NO: Usa Modello AI<br>
-            ↓<br>
-            Output Corrente
-        </div>
-        
-        <div class="formula-box">
-            <h3>📐 Equazione del Modello Ibrido:</h3>
-            <div style="font-size: 1.3em; font-family: 'Cambria', serif;">
-                I<sub>ibrido</sub> = 
-                <table style="display: inline-table; vertical-align: middle;">
-                    <tr>
-                        <td style="border-bottom: 1px solid #333; padding: 0 10px;">0</td>
-                        <td style="padding: 0 10px;">se V &lt; 0.6V (Fisica)</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0 10px;">Polinomio(V)</td>
-                        <td style="padding: 0 10px;">se V ≥ 0.6V (AI)</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <h2 id="implementazione">💻 Implementazione in Python</h2>
-        
-        <div class="step">
-            <h3>Fase 0: Setup e Addestramento (Ripristino Lezione 6)</h3>
-        </div>
-        
-        <div class="code">
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from sklearn.pipeline import make_pipeline
 
-# 1. Dati e Modello Polinomiale (Oscillante) - Stesso della Lezione 6
-V = np.linspace(0, 0.8, 20).reshape(-1, 1)
-I = 1e-12 * (np.exp(V / 0.026) - 1)  # Equazione di Shockley
-I_noise = I + np.random.normal(0, 0.0005, size=I.shape)
+    <div class="container">
 
-grado = 5
-modello_diodo = make_pipeline(PolynomialFeatures(grado), LinearRegression())
-modello_diodo.fit(V, I_noise)
+        <div class="card" id="concept">
+            <h2>🎯 L'Ingresso dell'Umano</h2>
+            
+            <div class="box warning">
+                <strong>⚠️ Recap Lezione 6:</strong><br>
+                Abbiamo visto che la Regressione Polinomiale pura è "stupida". Non conoscendo la fisica, crea oscillazioni (Fenomeno di Runge) e predice correnti negative impossibili.
+            </div>
 
-print("Modello polinomiale (oscillante) ripristinato dalla Lezione 6")
+            <p>Oggi introduciamo il <strong>Physics-Informed Machine Learning (PIML)</strong>. L'idea è semplice: usiamo l'AI per modellare la complessità dei dati, ma usiamo regole fisiche rigide ("Hard Rules") dove sappiamo che l'AI sbaglia.</p>
+
+            
+            
+            <div class="box hybrid">
+                <h3>🤝 Il meglio dei due mondi</h3>
+                <ul>
+                    <li><strong>AI (Machine Learning):</strong> Gestisce la curva esponenziale complessa quando il diodo è acceso.</li>
+                    <li><strong>Fisica (Regole):</strong> Impone corrente zero quando la tensione è sotto la soglia (0.6V).</li>
+                </ul>
+            </div>
         </div>
-        
-        <div class="step">
-            <h3>Fase 1: Il Filtro Ibrido</h3>
-        </div>
-        
-        <div class="code">
-# Creiamo dati di test più densi per vedere meglio la curva
-V_test = np.linspace(0, 0.8, 100).reshape(-1, 1)
 
-# 1. Previsione "grezza" del modello polinomiale
+        <div class="card" id="logic">
+            <h2>🔌 La Logica del Filtro</h2>
+            <p>Non stiamo creando un nuovo algoritmo matematico complesso. Stiamo creando un <strong>sistema a stadi</strong>. Il modello AI fa una previsione, ma prima di accettarla, questa passa attraverso un "filtro logico" basato sulla conoscenza umana.</p>
+
+            
+
+            <p>Matematicamente, definiamo una funzione definita a tratti:</p>
+            <div style="font-size: 1.3rem; text-align: center; margin: 25px 0;">
+                $$ I_{ibrido} = \begin{cases} 
+                0 & \text{se } V < 0.6V \text{ (Fisica)} \\
+                \text{Polinomio}(V) & \text{se } V \geq 0.6V \text{ (AI)}
+                \end{cases} $$
+            </div>
+        </div>
+
+        <div class="card" id="code">
+            <h2>💻 Implementazione in Python</h2>
+            <p>Per implementare questa logica condizionale in modo efficiente su migliaia di dati contemporaneamente, usiamo la potente funzione <code>np.where</code> di NumPy.</p>
+
+            <div class="code-container">
+                <div class="code-header"><span>hybrid_model.py</span><span>Python</span></div>
+                <pre>
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># 1. Generiamo previsioni "grezze" dal modello polinomiale (Lez 6)</span>
 I_grezza = modello_diodo.predict(V_test)
 
-# 2. SOGLIA FISICA DEL DIODO
-SOGLIA_DIODO = 0.6  # Volt
+<span class="comment"># 2. Definiamo la conoscenza fisica (Soglia)</span>
+SOGLIA_DIODO = <span class="keyword">0.6</span>  <span class="comment"># Volt</span>
 
-# 3. LOGICA IBRIDA: np.where(condizione, valore_se_true, valore_se_false)
-I_finale = np.where(V_test < SOGLIA_DIODO, 0, I_grezza)
+<span class="comment"># 3. APPLICAZIONE FILTRO IBRIDO</span>
+<span class="comment"># Sintassi: np.where(condizione, valore_se_vero, valore_se_falso)</span>
+I_finale = np.where(V_test < SOGLIA_DIODO, <span class="keyword">0</span>, I_grezza)
 
-# 4. Sicurezza aggiuntiva: nessuna corrente negativa
-I_finale = np.maximum(I_finale, 0)
-
-print("Filtro ibrido applicato con successo!")
-        </div>
-        
-        <div class="box">
-            <h3>🧠 Spiegazione del Codice:</h3>
-            <p><strong>np.where(condizione, vero, falso)</strong> è la funzione chiave:</p>
-            <ul>
-                <li>Per ogni punto V_test, controlla se V &lt; 0.6V</li>
-                <li>Se VERO: assegna 0 (fisica)</li>
-                <li>Se FALSO: usa il valore predetto dall'AI</li>
-            </ul>
-            <p><strong>np.maximum(array, 0)</strong> garantisce che nessun valore sia negativo.</p>
-        </div>
-        
-        <h2 id="risultato">📊 Il Risultato Finale: Grafico</h2>
-        
-        <div class="comparison">
-            <div class="comparison-item" style="border-top: 4px solid #e74c3c;">
-                <h3>📈 Modello Puro (Lezione 6)</h3>
-                <div style="font-size: 2em; color: #e74c3c;">🌀</div>
-                <p><strong>Problemi:</strong></p>
-                <ul style="text-align: left;">
-                    <li>Oscillazioni non fisiche</li>
-                    <li>Correnti negative</li>
-                    <li>Modella il rumore</li>
-                </ul>
+<span class="comment"># 4. Sicurezza extra: mai corrente negativa</span>
+I_finale = np.maximum(I_finale, <span class="keyword">0</span>)</pre>
             </div>
+
+            <div class="box success">
+                <strong>💡 Nota Tecnica:</strong><br>
+                <code>np.where</code> è vettoriale: opera su tutto l'array in un colpo solo, senza bisogno di cicli <code>for</code> lenti.
+            </div>
+        </div>
+
+        <div class="card" id="results">
+            <h2>📊 Il Risultato Finale</h2>
+            <p>Confrontiamo visivamente cosa succede applicando il filtro fisico. A sinistra il modello puramente matematico (instabile), a destra il modello ibrido.</p>
+
             
-            <div class="comparison-item" style="border-top: 4px solid #2ecc71;">
-                <h3>✅ Modello Ibrido (Lezione 7)</h3>
-                <div style="font-size: 2em; color: #2ecc71;">📐</div>
-                <p><strong>Vantaggi:</strong></p>
-                <ul style="text-align: left;">
-                    <li>Piatta a zero sotto soglia</li>
-                    <li>Nessuna oscillazione</li>
-                    <li>Fisicamente corretto</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="code">
-# CODICE PER VISUALIZZARE IL CONFRONTO
-plt.figure(figsize=(12, 6))
 
-# 1. Grafico sinistro: Modello Puro (oscillante)
-plt.subplot(1, 2, 1)
-plt.scatter(V, I_noise, color='black', alpha=0.5, label='Dati Lab')
-plt.plot(V_test, I_grezza, 'r-', linewidth=2, label='Modello Polinomiale Puro')
-plt.title("PRIMA: Modello Puro (Oscillante)")
-plt.xlabel("Tensione V [Volt]")
-plt.ylabel("Corrente I [A]")
-plt.grid(True, alpha=0.3)
-plt.legend()
-
-# 2. Grafico destro: Modello Ibrido (corretto)
-plt.subplot(1, 2, 2)
-plt.scatter(V, I_noise, color='black', alpha=0.5, label='Dati Lab')
-plt.plot(V_test, I_finale, 'g-', linewidth=2, label='Modello Ibrido (Filtrato)')
-plt.axvline(x=SOGLIA_DIODO, color='blue', linestyle='--', alpha=0.7, label='Soglia 0.6V')
-plt.title("DOPO: Modello Ibrido (Corretto)")
-plt.xlabel("Tensione V [Volt]")
-plt.ylabel("Corrente I [A]")
-plt.grid(True, alpha=0.3)
-plt.legend()
-
-plt.tight_layout()
-plt.show()
-        </div>
-        
-        <div class="hybrid-visual">
-            <h3>🎨 Visualizzazione del Risultato</h3>
-            <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-                <div style="text-align: center;">
-                    <div style="width: 150px; height: 100px; background: repeating-linear-gradient(45deg, #e74c3c, #e74c3c 10px, #f1948a 10px, #f1948a 20px); border-radius: 5px;"></div>
-                    <p><strong>Prima:</strong> Oscillazioni</p>
+            <div class="comparison-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div style="padding: 15px; background: #fee2e2; border-radius: 8px; border: 1px solid #fca5a5;">
+                    <h4 style="color: #991b1b; margin-bottom: 10px;">❌ Modello Puro</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Oscilla vicino allo zero.</li>
+                        <li>Prevede correnti negative.</li>
+                        <li>Overfitting sul rumore.</li>
+                    </ul>
                 </div>
-                <div style="font-size: 2em; align-self: center;">→</div>
-                <div style="text-align: center;">
-                    <div style="width: 150px; height: 100px; background: linear-gradient(to right, #27ae60 0%, #27ae60 30%, #2ecc71 30%, #2ecc71 100%); border-radius: 5px;"></div>
-                    <p><strong>Dopo:</strong> Pulito e fisico</p>
+                <div style="padding: 15px; background: #dcfce7; border-radius: 8px; border: 1px solid #86efac;">
+                    <h4 style="color: #166534; margin-bottom: 10px;">✅ Modello Ibrido</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Perfettamente piatto a zero (come la realtà).</li>
+                        <li>Curva pulita sopra 0.6V.</li>
+                        <li>Fisicamente robusto.</li>
+                    </ul>
                 </div>
             </div>
-            <p><em>La linea verde è piatta a zero fino a 0.6V, poi segue l'esponenziale</em></p>
         </div>
-        
-        <h2>🔬 Perché Questo Approccio è Rivoluzionario</h2>
-        
-        <div class="box hybrid">
-            <h3>🎯 Physics-Informed Machine Learning (PIML)</h3>
-            <p>Non è solo un "filtro". È una <strong>filosofia di progettazione</strong>:</p>
-            <ol>
-                <li><strong>Usa l'AI per ciò che sa fare bene</strong> (apprendere pattern complessi dai dati)</li>
-                <li><strong>Usa la fisica per ciò che sa fare bene</strong> (garantire correttezza fisica)</li>
-                <li><strong>Combina i due approcci</strong> in modo sinergico</li>
-            </ol>
-        </div>
-        
-        <h2>🚀 Sfida Finale: Verso il Circuito</h2>
-        
-        <div class="circuit-challenge">
-            <h3>⚡ Abbiamo un modello perfetto del Diodo. Ma...</h3>
-            <p>In elettronica i componenti <strong>lavorano in gruppo</strong>.</p>
-            <p>La prossima sfida sarà <strong>collegare questo Diodo a una Resistenza</strong> e analizzare il circuito completo.</p>
-        </div>
-        
-        <div class="workflow">
-            <div class="workflow-step">
-                <div style="font-size: 2em;">🔧</div>
-                <h4>PASSO 1: Il Codice</h4>
-                <p>Apri il Notebook, esegui il filtro e prepara il modello</p>
-            </div>
+
+        <div class="card" style="text-align: center; border-color: var(--warning-border); background: var(--warning-bg);">
+            <h3>🚀 Sfida Finale: Verso il Circuito</h3>
+            <p>Ora abbiamo un modello perfetto del componente <strong>Diodo</strong>. Ma in elettronica i componenti lavorano in gruppo.</p>
+            <p>Nella prossima lezione collegheremo questo modello AI a una resistenza per risolvere un circuito completo.</p>
             
-            <div class="workflow-arrow">→</div>
-            
-            <div class="workflow-step">
-                <div style="font-size: 2em;">🎯</div>
-                <h4>PASSO 2: La Sfida</h4>
-                <p>Costruisci il circuito con diodo e resistenza</p>
+            <div style="margin: 20px auto; max-width: 300px;">
+                
             </div>
+
+            <a href="lezione8.html" class="btn-next">Vai alla Lezione 8: Il Circuito Completo →</a>
         </div>
-        
-        <div class="box success" style="text-align: center;">
-            <h3>🚀 Pronto per l'Applicazione Reale?</h3>
-            <p>Una volta pronto il modello, vai alla lezione successiva per costruire il circuito completo.</p>
-            <p style="margin-top: 15px;">
-                <a href="lezione8.html" style="background: #e74c3c; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
-                    → VAI ALLA LEZIONE 8: IL CIRCUITO COMPLETO
-                </a>
-            </p>
-        </div>
-        
-        <h2>📋 Riassunto Apprendimenti</h2>
-        <div class="box">
-            <h3>✅ Cosa abbiamo imparato oggi:</h3>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Physics-Informed ML</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Combinare AI e conoscenza fisica</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>np.where()</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Funzione per logica condizionale</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Filtro Fisico</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Correggere previsioni non fisiche</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Soglia Diodo</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.6V per diodi al silicio</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><strong>Modelli Ibridi</strong></td>
-                    <td style="padding: 10px;">Il futuro dell'ingegneria assistita da AI</td>
-                </tr>
-            </table>
-        </div>
-        
-        <div class="terminal">
->>> import numpy as np<br>
->>> V = np.array([0.1, 0.5, 0.7, 0.8])<br>
->>> I_pred = np.array([0.001, 0.002, 0.1, 0.5])<br>
->>> I_hybrid = np.where(V < 0.6, 0, I_pred)<br>
->>> print(I_hybrid)<br>
-[0.   0.   0.1  0.5]
-        </div>
-        
-        <div class="box info">
-            <h3>💡 Consiglio per Ingegneri:</h3>
-            <p><strong>Sempre chiederti:</strong> "Le previsioni del mio modello hanno senso fisico?"</p>
-            <p>Se la risposta è NO, applica un filtro fisico come abbiamo fatto oggi.</p>
-        </div>
+
     </div>
-    
-    <div class="footer">
+
+    <footer>
         <p>Laboratorio di Sistemi e Automazione - ML per Elettronica</p>
-        <p>Lezione 7: Modello Ibrido - Fisica + Intelligenza Artificiale</p>
-        <p>
-            <a href="lezione6.html">← Lezione 6</a> | 
-            <a href="Python_7.pdf" target="_blank">📄 Scarica PDF Lezione 7</a> | 
-            <a href="lezione8.html">Lezione 8 →</a>
-        </p>
-    </div>
+        <p>Lezione 7: Physics-Informed Machine Learning</p>
+    </footer>
+
 </body>
 </html>
